@@ -3,7 +3,7 @@
 Contributors: pjaudiomv
 Tags: bmlt, meeting list
 Tested up to: 4.9.8
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,11 @@ This section describes how to install the plugin and get it working.
 
 = 1.0.1 =
 
-* Add Bread
+* Added Yap
+
+= 1.0.1 =
+
+* Added Bread
 
 = 1.0.0 =
 

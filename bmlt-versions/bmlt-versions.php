@@ -5,7 +5,7 @@ Plugin URI: https://bmlt.magshare.net
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.magshare.net
-Version: 1.0.1
+Version: 1.0.2
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -34,6 +34,9 @@ $content .= '<ul class="bmlt_versions_ul">';
 	$content .= '</li>';
 	$content .= '<li class="bmlt_versions_li_bread">';
 		$content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getBreadVersion(). '</a>';
+	$content .= '</li>';
+	$content .= '<li class="bmlt_versions_li_yap">';
+		$content .= '<a href ="https://github.com/radius314/yap/">Yap (Phone line) - ' .getYapVersion(). '</a>';
 	$content .= '</li>';
 $content .= '</ul>';
 $content .= '</div>';
@@ -106,6 +109,25 @@ function getBreadVersion() {
 		if (strpos($line, 'Version:') !== false) {
 			$pieces = explode(":", $line);
 			return trim($pieces[1]);
+		} 
+	}
+	return -1;
+}
+
+function getYapVersion() {
+	$results = wp_remote_get("https://raw.githubusercontent.com/radius314/yap/master/functions.php");
+	$httpcode = wp_remote_retrieve_response_code( $results );
+	$response_message = wp_remote_retrieve_response_message( $results );
+	if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
+		return 'Problem Connecting to Server!';
+	};
+	$body = wp_remote_retrieve_body($results);
+	$lines = explode("\n", $body);
+	foreach ($lines as $lineNumber => $line) {
+		if (strpos($line, 'version = ') !== false) {
+			if (preg_match('/"([^"]+)"/', $line, $result)) {
+    			return trim($result[1]);   
+			}
 		} 
 	}
 	return -1;
