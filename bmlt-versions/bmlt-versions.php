@@ -36,7 +36,7 @@ $content .= '<ul class="bmlt_versions_ul">';
 		$content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getBreadVersion(). '</a>';
 	$content .= '</li>';
 	$content .= '<li class="bmlt_versions_li_yap">';
-		$content .= '<a href ="https://github.com/radius314/yap/">Yap (Phone line) - ' .getYapVersion(). '</a>';
+		$content .= '<a href ="https://github.com/radius314/yap/tree/' .getYapVersion(). '">Yap (Phone line) - ' .getYapVersion(). '</a>';
 	$content .= '</li>';
 $content .= '</ul>';
 $content .= '</div>';
