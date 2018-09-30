@@ -1,9 +1,10 @@
 <?php
 /*
 Plugin Name: BMLT Versions
-Author: Patrick J
-Description: Displays download links and versions for latest BMLT Releases simply add [bmlt_versions] shortcode to your page.
-Version: 1.0.0
+Plugin URI: https://bmlt.magshare.net
+Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
+Author: BMLT Authors
+Author URI: https://bmlt.magshare.net
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
