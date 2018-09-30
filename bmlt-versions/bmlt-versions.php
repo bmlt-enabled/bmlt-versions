@@ -63,8 +63,8 @@ function getSatelliteBaseClassVersion() {
 	$body = wp_remote_retrieve_body($results);
 	$lines = explode("\n", $body);
 	foreach ($lines as $lineNumber => $line) {
-		if (strpos($line, 'Version: ') !== false) {
-			$pieces = explode(": ", $line);
+		if (strpos($line, 'Version:') !== false) {
+			$pieces = explode(":", $line);
 			return trim($pieces[1]);
 		} 
 	}
@@ -81,8 +81,8 @@ function getCroutonVersion() {
 	$body = wp_remote_retrieve_body($results);
 	$lines = explode("\n", $body);
 	foreach ($lines as $lineNumber => $line) {
-		if (strpos($line, 'Version: ') !== false) {
-			$pieces = explode(": ", $line);
+		if (strpos($line, 'Version:') !== false) {
+			$pieces = explode(":", $line);
 			return trim($pieces[1]);
 		} 
 	}
