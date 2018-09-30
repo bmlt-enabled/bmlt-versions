@@ -9,7 +9,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 
 # MORE INFORMATION
 
-[https://github.com/pjaudiomv/versions](https://github.com/pjaudiomv/bmlt-versions)
+[https://github.com/pjaudiomv/bmlt-versions](https://github.com/pjaudiomv/bmlt-versions)
 
 # Installation
 
