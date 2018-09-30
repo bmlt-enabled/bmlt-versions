@@ -17,7 +17,7 @@ function bmlt_versions_func( $atts ) {
 $content .= '<div class="bmlt_versions_div">';
 $content .= '<ul class="bmlt_versions_ul">';
 	$content .= '<li class="bmlt_versions_li_root">';
-		$content .= '<a href ="https://github.com/LittleGreenViper/BMLT-Root-Server/raw/master/BMLT-Root-Server.zip">Root Server (zip file) - ' .getRootServerVersion(). '</a>';;
+		$content .= '<a href ="https://github.com/LittleGreenViper/BMLT-Root-Server/raw/Release/BMLT-Root-Server.zip">Root Server (zip file) - ' .getRootServerVersion(). '</a>';;
 	$content .= '</li>';
 	$content .= '<li class="bmlt_versions_li_wordpress">';
 		$content .= '<a href ="https://wordpress.org/plugins/bmlt-wordpress-satellite-plugin/">WordPress Plugin - ' .getSatelliteBaseClassVersion(). '</a>';
@@ -30,6 +30,9 @@ $content .= '<ul class="bmlt_versions_ul">';
 	$content .= '</li>';
 	$content .= '<li class="bmlt_versions_li_crouton">';
 		$content .= '<a href ="https://wordpress.org/plugins/crouton/">Crouton (Tabbed UI) Plugin - ' .getCroutonVersion(). '</a>';
+	$content .= '</li>';
+	$content .= '<li class="bmlt_versions_li_bread">';
+		$content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getBreadVersion(). '</a>';
 	$content .= '</li>';
 $content .= '</ul>';
 $content .= '</div>';
@@ -73,6 +76,24 @@ function getSatelliteBaseClassVersion() {
 
 function getCroutonVersion() {
 	$results = wp_remote_get("https://plugins.svn.wordpress.org/crouton/trunk/crouton.php");
+	$httpcode = wp_remote_retrieve_response_code( $results );
+	$response_message = wp_remote_retrieve_response_message( $results );
+	if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
+		return 'Problem Connecting to Server!';
+	};
+	$body = wp_remote_retrieve_body($results);
+	$lines = explode("\n", $body);
+	foreach ($lines as $lineNumber => $line) {
+		if (strpos($line, 'Version:') !== false) {
+			$pieces = explode(":", $line);
+			return trim($pieces[1]);
+		} 
+	}
+	return -1;
+}
+
+function getBreadVersion() {
+	$results = wp_remote_get("https://plugins.svn.wordpress.org/bread/trunk/bmlt-meeting-list.php");
 	$httpcode = wp_remote_retrieve_response_code( $results );
 	$response_message = wp_remote_retrieve_response_message( $results );
 	if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
