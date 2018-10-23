@@ -36,7 +36,7 @@ $content .= '<ul class="bmlt_versions_ul">';
 		$content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getBreadVersion(). '</a>';
 	$content .= '</li>';
 	$content .= '<li class="bmlt_versions_li_yap">';
-		$content .= '<a href ="https://github.com/radius314/yap/tree/' .getYapVersion(). '">Yap (Phone line) - ' .getYapVersion(). '</a>';
+		$content .= '<a href ="https://github.com/radius314/yap/archive/' .getYapVersion(). '.zip' .'">Yap (Phone line) - ' .getYapVersion(). '</a>';
 	$content .= '</li>';
 $content .= '</ul>';
 $content .= '</div>';
@@ -115,22 +115,15 @@ function getBreadVersion() {
 }
 
 function getYapVersion() {
-	$results = wp_remote_get("https://raw.githubusercontent.com/radius314/yap/master/functions.php");
-	$httpcode = wp_remote_retrieve_response_code( $results );
-	$response_message = wp_remote_retrieve_response_message( $results );
-	if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-		return 'Problem Connecting to Server!';
-	};
-	$body = wp_remote_retrieve_body($results);
-	$lines = explode("\n", $body);
-	foreach ($lines as $lineNumber => $line) {
-		if (strpos($line, 'version = ') !== false) {
-			if (preg_match('/"([^"]+)"/', $line, $result)) {
-    			return trim($result[1]);   
-			}
-		} 
-	}
-	return -1;
+    $results = wp_remote_get("https://api.github.com/repos/radius314/yap/tags");
+    $httpcode = wp_remote_retrieve_response_code( $results );
+    $response_message = wp_remote_retrieve_response_message( $results );
+    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
+        return 'Problem Connecting to Server!';
+    };
+    $body = wp_remote_retrieve_body($results);
+    $result = json_decode($body, true);
+    return $result[0]['name'];
 }
 
 // create [bmlt_versions] shortcode
