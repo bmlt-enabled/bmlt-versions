@@ -28,6 +28,10 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.1.1 =
+
+* Changed urls for moved repos.
+
 = 1.1.0 =
 
 * Added shortcode attributes to be able to only display certain links.
