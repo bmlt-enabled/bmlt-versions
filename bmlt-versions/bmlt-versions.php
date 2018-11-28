@@ -42,7 +42,7 @@ $content .= '<ul class="bmlt_versions_ul">';
     }
     if ($wordpress) {
         $content .= '<li class="bmlt_versions_li_wordpress">';
-            $content .= '<a href ="https://wordpress.org/plugins/bmlt-wordpress-satellite-plugin/">WordPress Plugin - ' .getSatelliteBaseClassVersion(). '</a>';
+            $content .= '<a href ="https://wordpress.org/plugins/bmlt-wordpress-satellite-plugin/">WordPress Plugin - ' .getWordpressPluginLatestVersion('bmlt-wordpress-satellite-plugin'). '</a>';
         $content .= '</li>';
     }
     if ($drupal) {
@@ -57,18 +57,18 @@ $content .= '<ul class="bmlt_versions_ul">';
     }
     if ($crouton) {
         $content .= '<li class="bmlt_versions_li_crouton">';
-            $content .= '<a href ="https://wordpress.org/plugins/crouton/">Crouton (Tabbed UI) Plugin - ' .getCroutonVersion(). '</a>';
+            $content .= '<a href ="https://wordpress.org/plugins/crouton/">Crouton (Tabbed UI) Plugin - ' .getWordpressPluginLatestVersion('crouton'). '</a>';
         $content .= '</li>';
     }
     if ($bread) {
         $content .= '<li class="bmlt_versions_li_bread">';
-            $content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getBreadVersion(). '</a>';
+            $content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' .getWordpressPluginLatestVersion('bread', 'bmlt-meeting-list'). '</a>';
         $content .= '</li>';
     }
     if ($yap) {
         $content .= '<li class="bmlt_versions_li_yap">';
             $yap_version = githubLatestReleaseVersion('yap');
-            $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' .'">Yap (Phone line / zip file) - ' .getYapVersion(). '</a>';
+            $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' .'">Yap (Phone line / zip file) - ' .$yap_version. '</a>';
         $content .= '</li>';
     }
 $content .= '</ul>';
@@ -90,6 +90,25 @@ function githubLatestReleaseVersion($repo) {
     return $result['name'];
 }
 
+function getWordpressPluginLatestVersion($repo, $file = null) {
+    if ($file == null) $file = $repo;
+    $results = wp_remote_get("https://plugins.svn.wordpress.org/$repo/trunk/$file.php");
+    $httpcode = wp_remote_retrieve_response_code( $results );
+    $response_message = wp_remote_retrieve_response_message( $results );
+    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
+        return 'Problem Connecting to Server!';
+    };
+    $body = wp_remote_retrieve_body($results);
+    $lines = explode("\n", $body);
+    foreach ($lines as $lineNumber => $line) {
+        if (strpos($line, 'Version:') !== false) {
+            $pieces = explode(":", $line);
+            return trim($pieces[1]);
+        }
+    }
+    return -1;
+}
+
 function getRootServerVersion() {
     $results = wp_remote_get("https://raw.githubusercontent.com/bmlt-enabled/BMLT-Root-Server/Release/main_server/client_interface/serverInfo.xml");
     $httpcode = wp_remote_retrieve_response_code( $results );
@@ -103,60 +122,6 @@ function getRootServerVersion() {
     $results = json_decode($results,true);
     $results = $results['serverVersion']['readableString'];
     return $results;
-}
-
-function getSatelliteBaseClassVersion() {
-    $results = wp_remote_get("https://plugins.svn.wordpress.org/bmlt-wordpress-satellite-plugin/trunk/bmlt-wordpress-satellite-plugin.php");
-    $httpcode = wp_remote_retrieve_response_code( $results );
-    $response_message = wp_remote_retrieve_response_message( $results );
-    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-        return 'Problem Connecting to Server!';
-    };
-    $body = wp_remote_retrieve_body($results);
-    $lines = explode("\n", $body);
-    foreach ($lines as $lineNumber => $line) {
-        if (strpos($line, 'Version:') !== false) {
-            $pieces = explode(":", $line);
-            return trim($pieces[1]);
-        }
-    }
-    return -1;
-}
-
-function getCroutonVersion() {
-    $results = wp_remote_get("https://plugins.svn.wordpress.org/crouton/trunk/crouton.php");
-    $httpcode = wp_remote_retrieve_response_code( $results );
-    $response_message = wp_remote_retrieve_response_message( $results );
-    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-        return 'Problem Connecting to Server!';
-    };
-    $body = wp_remote_retrieve_body($results);
-    $lines = explode("\n", $body);
-    foreach ($lines as $lineNumber => $line) {
-        if (strpos($line, 'Version:') !== false) {
-            $pieces = explode(":", $line);
-            return trim($pieces[1]);
-        }
-    }
-    return -1;
-}
-
-function getBreadVersion() {
-    $results = wp_remote_get("https://plugins.svn.wordpress.org/bread/trunk/bmlt-meeting-list.php");
-    $httpcode = wp_remote_retrieve_response_code( $results );
-    $response_message = wp_remote_retrieve_response_message( $results );
-    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-        return 'Problem Connecting to Server!';
-    };
-    $body = wp_remote_retrieve_body($results);
-    $lines = explode("\n", $body);
-    foreach ($lines as $lineNumber => $line) {
-        if (strpos($line, 'Version:') !== false) {
-            $pieces = explode(":", $line);
-            return trim($pieces[1]);
-        }
-    }
-    return -1;
 }
 
 function getBasicSatelliteVersion() {
