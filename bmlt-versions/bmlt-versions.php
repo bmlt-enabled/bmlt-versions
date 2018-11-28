@@ -32,6 +32,7 @@ $crouton = sanitize_text_field($crouton);
 $bread = sanitize_text_field($bread);
 $yap = sanitize_text_field($yap);
 
+$content = '';
 $content .= '<div class="bmlt_versions_div">';
 $content .= '<ul class="bmlt_versions_ul">';
     if ($root_server) {
@@ -66,7 +67,8 @@ $content .= '<ul class="bmlt_versions_ul">';
     }
     if ($yap) {
         $content .= '<li class="bmlt_versions_li_yap">';
-            $content .= '<a href ="https://github.com/bmlt-enabled/yap/archive/' .getYapVersion(). '.zip' .'">Yap (Phone line / zip file) - ' .getYapVersion(). '</a>';
+            $yap_version = githubLatestReleaseVersion('yap');
+            $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' .'">Yap (Phone line / zip file) - ' .getYapVersion(). '</a>';
         $content .= '</li>';
     }
 $content .= '</ul>';
@@ -74,6 +76,18 @@ $content .= '</div>';
 
 return $content;
 
+}
+
+function githubLatestReleaseVersion($repo) {
+    $results = wp_remote_get("https://api.github.com/repos/bmlt-enabled/$repo/releases/latest");
+    $httpcode = wp_remote_retrieve_response_code( $results );
+    $response_message = wp_remote_retrieve_response_message( $results );
+    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
+        return 'Problem Connecting to Server!';
+    };
+    $body = wp_remote_retrieve_body($results);
+    $result = json_decode($body, true);
+    return $result['name'];
 }
 
 function getRootServerVersion() {
@@ -143,18 +157,6 @@ function getBreadVersion() {
         }
     }
     return -1;
-}
-
-function getYapVersion() {
-    $results = wp_remote_get("https://api.github.com/repos/bmlt-enabled/yap/tags");
-    $httpcode = wp_remote_retrieve_response_code( $results );
-    $response_message = wp_remote_retrieve_response_message( $results );
-    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-        return 'Problem Connecting to Server!';
-    };
-    $body = wp_remote_retrieve_body($results);
-    $result = json_decode($body, true);
-    return $result[0]['name'];
 }
 
 function getBasicSatelliteVersion() {
