@@ -5,7 +5,7 @@ Plugin URI: https://wordpress.org/plugins/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.1.1
+Version: 1.1.3
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -37,7 +37,8 @@ $content .= '<div class="bmlt_versions_div">';
 $content .= '<ul class="bmlt_versions_ul">';
     if ($root_server) {
         $content .= '<li class="bmlt_versions_li_root">';
-            $content .= '<a href ="https://github.com/bmlt-enabled/BMLT-Root-Server/raw/Release/BMLT-Root-Server.zip">Root Server (zip file) - ' .getRootServerVersion(). '</a>';;
+            $rootServer_version = githubLatestReleaseVersion('bmlt-root-server');
+            $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-root-server/releases/download/' . $rootServer_version . '/bmlt-root-server.zip">Root Server (zip file) - ' .$rootServer_version. '</a>';;
         $content .= '</li>';
     }
     if ($wordpress) {
@@ -107,21 +108,6 @@ function getWordpressPluginLatestVersion($repo, $file = null) {
         }
     }
     return -1;
-}
-
-function getRootServerVersion() {
-    $results = wp_remote_get("https://raw.githubusercontent.com/bmlt-enabled/BMLT-Root-Server/Release/main_server/client_interface/serverInfo.xml");
-    $httpcode = wp_remote_retrieve_response_code( $results );
-    $response_message = wp_remote_retrieve_response_message( $results );
-    if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && ! empty( $response_message )) {
-        return 'Problem Connecting to Server!';
-    };
-    $body = wp_remote_retrieve_body($results);
-    $results = simplexml_load_string($body);
-    $results = json_encode($results);
-    $results = json_decode($results,true);
-    $results = $results['serverVersion']['readableString'];
-    return $results;
 }
 
 function getBasicSatelliteVersion() {

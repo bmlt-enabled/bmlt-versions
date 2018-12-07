@@ -28,6 +28,15 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.1.3 =
+
+* Changed root server to pull version from github api.
+
+= 1.1.2 =
+
+* Refractored some of the way versions are pulled.
+* Added docker.
+
 = 1.1.1 =
 
 * Changed urls for moved repos.
