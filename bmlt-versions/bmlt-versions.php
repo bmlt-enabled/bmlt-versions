@@ -5,7 +5,7 @@ Plugin URI: https://wordpress.org/plugins/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.1.3
+Version: 1.1.4
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -53,7 +53,8 @@ $content .= '<ul class="bmlt_versions_ul">';
     }
     if ($basic) {
         $content .= '<li class="bmlt_versions_li_basic">';
-            $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-basic/raw/release/bmlt-basic.zip">Basic Satellite (zip file) - ' .getBasicSatelliteVersion(). '</a>';
+            $basic_version = githubLatestReleaseVersion('bmlt-basic');
+            $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $basic_version . '/bmlt-basic.zip">Basic Satellite (zip file) - ' .$basic_version. '</a>';
         $content .= '</li>';
     }
     if ($crouton) {
