@@ -54,7 +54,7 @@ $content .= '<ul class="bmlt_versions_ul">';
     if ($basic) {
         $content .= '<li class="bmlt_versions_li_basic">';
             $basic_version = githubLatestReleaseVersion('bmlt-basic');
-            $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $basic_version . '/bmlt-basic.zip">Basic Satellite (zip file) - ' .$basic_version. '</a>';
+            $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-basic/releases/download/' . $basic_version . '/bmlt-basic.zip">Basic Satellite (zip file) - ' .$basic_version. '</a>';
         $content .= '</li>';
     }
     if ($crouton) {
