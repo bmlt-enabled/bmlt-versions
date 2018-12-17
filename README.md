@@ -28,9 +28,9 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
-= 1.1.3 =
+= 1.1.4 =
 
-* Changed root server to pull version from github api.
+* Changed bmlt basic to pull version from github api.
 
 = 1.1.2 =
 
