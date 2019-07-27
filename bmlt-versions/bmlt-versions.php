@@ -5,7 +5,7 @@ Plugin URI: https://wordpress.org/plugins/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.1.5
+Version: 1.1.6
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -39,7 +39,9 @@ if (!class_exists("BmltVersions")) {
                 'basic' => '1',
                 'crouton' => '1',
                 'bread' => '1',
-                'yap' => '1'
+                'yap' => '1',
+                'tabbed_map' => '1',
+                'meeting_map' => '1'
             ), $atts));
 
             $root_server = sanitize_text_field($root_server);
@@ -49,6 +51,8 @@ if (!class_exists("BmltVersions")) {
             $crouton = sanitize_text_field($crouton);
             $bread = sanitize_text_field($bread);
             $yap = sanitize_text_field($yap);
+            $tabbed_map = sanitize_text_field($tabbed_map);
+            $meeting_map = sanitize_text_field($meeting_map);
 
             $content = '';
             $content .= '<div class="bmlt_versions_div">';
@@ -83,6 +87,18 @@ if (!class_exists("BmltVersions")) {
             if ($bread) {
                 $content .= '<li class="bmlt_versions_li_bread">';
                 $content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' . $this->getWordpressPluginLatestVersion('bread', 'bmlt-meeting-list') . '</a>';
+                $content .= '</li>';
+            }
+
+            if ($tabbed_map) {
+                $content .= '<li class="bmlt_versions_li_tabbed_map">';
+                $content .= '<a href ="https://wordpress.org/plugins/bmlt-tabbed-map/">Tabbed Map Plugin - ' . $this->getWordpressPluginLatestVersion('bmlt-tabbed-map', 'bmlt_tabbed_map') . '</a>';
+                $content .= '</li>';
+            }
+            if ($meeting_map) {
+                $content .= '<li class="bmlt_versions_li_meeting_map">';
+                $bmlt_meeting_map_version = $this->githubLatestReleaseVersion('bmlt-meeting-map');
+                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-meeting-map/releases/download/' . $bmlt_meeting_map_version . '/bmlt-meeting-map.zip' . '">Meeting Map Plugin - ' . $bmlt_meeting_map_version . '</a>';
                 $content .= '</li>';
             }
             if ($yap) {
