@@ -3,7 +3,7 @@
 Contributors: pjaudiomv, radius314
 Tags: bmlt, meeting list
 Tested up to: 5.2.2
-Stable tag: 1.1.6
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 SHORTCODE
 [bmlt_versions]
 
-**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap
+**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map
 Adds ability to hide certain releases, default is to show all or 1.
 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
@@ -33,6 +33,11 @@ This section describes how to install the plugin and get it working.
 
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Rewrote to only use github api for versions.
+* Added release date.
 
 = 1.1.6 =
 

@@ -5,7 +5,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 # SHORTCODE
 [bmlt_versions]
 
-**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap
+**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map
 Adds ability to hide certain releases, default is to show all or 1.
 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
@@ -27,6 +27,11 @@ This section describes how to install the plugin and get it working.
 
 
 # Changelog
+
+= 1.2.0 =
+
+* Rewrote to only use github api for versions.
+* Added release date.
 
 = 1.1.6 =
 
