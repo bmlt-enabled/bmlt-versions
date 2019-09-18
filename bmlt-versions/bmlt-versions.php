@@ -60,50 +60,59 @@ if (!class_exists("BmltVersions")) {
             if ($root_server) {
                 $content .= '<li class="bmlt_versions_li_root">';
                 $rootServer_version = $this->githubLatestReleaseVersion('bmlt-root-server');
-                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-root-server/releases/download/' . $rootServer_version . '/bmlt-root-server.zip">Root Server (zip file) - ' . $rootServer_version . '</a>';
+                $rootServer_date = $this->githubLatestReleaseDate('bmlt-root-server');
+                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-root-server/releases/download/' . $rootServer_version . '/bmlt-root-server.zip">Root Server (zip file) - ' . $rootServer_date . '</a>';
                 $content .= '</li>';
             }
             if ($wordpress) {
+                $wordpress_date = $this->githubLatestReleaseDate('bmlt-wordpress-satellite-plugin');
                 $content .= '<li class="bmlt_versions_li_wordpress">';
-                $content .= '<a href ="https://wordpress.org/plugins/bmlt-wordpress-satellite-plugin/">WordPress Plugin - ' . $this->githubLatestReleaseVersion('bmlt-wordpress-satellite-plugin') . '</a>';
+                $content .= '<a href ="https://wordpress.org/plugins/bmlt-wordpress-satellite-plugin/">WordPress Plugin - ' . $wordpress_date . '</a>';
                 $content .= '</li>';
             }
             if ($drupal) {
+                $drupal_date = $this->githubLatestReleaseDate('bmlt-drupal');
                 $content .= '<li class="bmlt_versions_li_drupal">';
-                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-drupal/raw/master/bmlt-drupal7.zip">Drupal 7 Module (zip file) - ' . $this->githubLatestReleaseVersion('bmlt-drupal') . '</a>';
+                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-drupal/raw/master/bmlt-drupal7.zip">Drupal 7 Module (zip file) - ' . $drupal_date . '</a>';
                 $content .= '</li>';
             }
             if ($basic) {
                 $content .= '<li class="bmlt_versions_li_basic">';
                 $basic_version = $this->githubLatestReleaseVersion('bmlt-basic');
-                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-basic/releases/download/' . $basic_version . '/bmlt-basic.zip">Basic Satellite (zip file) - ' . $basic_version . '</a>';
+                $basic_date = $this->githubLatestReleaseDate('bmlt-basic');
+                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-basic/releases/download/' . $basic_version . '/bmlt-basic.zip">Basic Satellite (zip file) - ' . $basic_date . '</a>';
                 $content .= '</li>';
             }
             if ($crouton) {
+                $crouton_date = $this->githubLatestReleaseDate('crouton');
                 $content .= '<li class="bmlt_versions_li_crouton">';
-                $content .= '<a href ="https://wordpress.org/plugins/crouton/">Crouton (Tabbed UI) Plugin - ' . $this->githubLatestReleaseVersion('crouton') . '</a>';
+                $content .= '<a href ="https://wordpress.org/plugins/crouton/">Crouton (Tabbed UI) Plugin - ' . $crouton_date . '</a>';
                 $content .= '</li>';
             }
             if ($bread) {
+                $bread_date = $this->githubLatestReleaseDate('bread');
                 $content .= '<li class="bmlt_versions_li_bread">';
-                $content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' . $this->githubLatestReleaseVersion('bread') . '</a>';
+                $content .= '<a href ="https://wordpress.org/plugins/bread/">Bread (Meeting List Generator) Plugin - ' . $bread_date . '</a>';
                 $content .= '</li>';
             }
             if ($tabbed_map) {
+                $bmlt_tabbed_map_date = $this->githubLatestReleaseDate('bmlt_tabbed_map');
                 $content .= '<li class="bmlt_versions_li_tabbed_map">';
-                $content .= '<a href ="https://wordpress.org/plugins/bmlt-tabbed-map/">Tabbed Map Plugin - ' . $this->githubLatestReleaseVersion('bmlt_tabbed_map') . '</a>';
+                $content .= '<a href ="https://wordpress.org/plugins/bmlt-tabbed-map/">Tabbed Map Plugin - ' . $bmlt_tabbed_map_date . '</a>';
                 $content .= '</li>';
             }
             if ($meeting_map) {
                 $content .= '<li class="bmlt_versions_li_meeting_map">';
                 $bmlt_meeting_map_version = $this->githubLatestReleaseVersion('bmlt-meeting-map');
-                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-meeting-map/releases/download/' . $bmlt_meeting_map_version . '/bmlt-meeting-map.zip' . '">Meeting Map Plugin - ' . $bmlt_meeting_map_version . '</a>';
+                $bmlt_meeting_map_date = $this->githubLatestReleaseDate('bmlt-meeting-map');
+                $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-meeting-map/releases/download/' . $bmlt_meeting_map_version . '/bmlt-meeting-map.zip' . '">Meeting Map Plugin - ' . $bmlt_meeting_map_date . '</a>';
                 $content .= '</li>';
             }
             if ($yap) {
                 $content .= '<li class="bmlt_versions_li_yap">';
                 $yap_version = $this->githubLatestReleaseVersion('yap');
-                $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' . '">Yap (Phone line / zip file) - ' . $yap_version . '</a>';
+                $yap_release_date = $this->githubLatestReleaseDate('yap');
+                $content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' . '">Yap (Phone line / zip file) - ' . $yap_release_date . '</a>';
                 $content .= '</li>';
             }
             $content .= '</ul>';
@@ -113,6 +122,19 @@ if (!class_exists("BmltVersions")) {
         }
 
         public function githubLatestReleaseVersion($repo)
+        {
+            $results = $this->get("https://api.github.com/repos/bmlt-enabled/$repo/releases/latest");
+            $httpcode = wp_remote_retrieve_response_code($results);
+            $response_message = wp_remote_retrieve_response_message($results);
+            if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && !empty($response_message)) {
+                return 'Problem Connecting to Server!';
+            }
+            $body = wp_remote_retrieve_body($results);
+            $result = json_decode($body, true);
+            return $result['tag_name'];
+        }
+
+        public function githubLatestReleaseDate($repo)
         {
             $results = $this->get("https://api.github.com/repos/bmlt-enabled/$repo/releases/latest");
             $httpcode = wp_remote_retrieve_response_code($results);
@@ -133,7 +155,7 @@ if (!class_exists("BmltVersions")) {
                 'timeout' => '120',
                 'headers' => array(
                     'User-Agent' => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) +BmltVersions',
-                    'Authorization' => 'token <<Personal access token here>>'
+                    'Authorization' => 'token API_KEY_HERE'
                 ),
                 'cookies' => isset($cookies) ? $cookies : null
             );
