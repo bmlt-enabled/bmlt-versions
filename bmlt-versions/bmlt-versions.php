@@ -5,7 +5,7 @@ Plugin URI: https://wordpress.org/plugins/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.2.0
+Version: 1.2.1
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -33,15 +33,18 @@ if (!class_exists("BmltVersions")) {
         public function bmltVersionsFunc($atts = [])
         {
             extract(shortcode_atts(array(
-                'root_server' => '1',
-                'wordpress' => '1',
-                'drupal' => '1',
-                'basic' => '1',
-                'crouton' => '1',
-                'bread' => '1',
-                'yap' => '1',
-                'tabbed_map' => '1',
-                'meeting_map' => '1'
+                'root_server'       => '1',
+                'wordpress'         => '1',
+                'drupal'            => '1',
+                'basic'             => '1',
+                'crouton'           => '1',
+                'bread'             => '1',
+                'yap'               => '1',
+                'tabbed_map'        => '1',
+                'meeting_map'       => '1',
+                'list_locations'    => '1',
+                'upcoming_meetings' => '1',
+                'contacts'          => '1'
             ), $atts));
 
             $root_server = sanitize_text_field($root_server);
@@ -53,6 +56,9 @@ if (!class_exists("BmltVersions")) {
             $yap = sanitize_text_field($yap);
             $tabbed_map = sanitize_text_field($tabbed_map);
             $meeting_map = sanitize_text_field($meeting_map);
+            $list_locations = sanitize_text_field($list_locations);
+            $upcoming_meetings = sanitize_text_field($upcoming_meetings);
+            $contacts = sanitize_text_field($contacts);
 
             $content = '';
             $content .= '<div class="bmlt_versions_div">';
@@ -106,6 +112,24 @@ if (!class_exists("BmltVersions")) {
                 $bmlt_meeting_map_version = $this->githubLatestReleaseVersion('bmlt-meeting-map');
                 $bmlt_meeting_map_date = $this->githubLatestReleaseDate('bmlt-meeting-map');
                 $content .= '<a href ="https://github.com/bmlt-enabled/bmlt-meeting-map/releases/download/' . $bmlt_meeting_map_version . '/bmlt-meeting-map.zip' . '">Meeting Map Plugin - ' . $bmlt_meeting_map_date . '</a>';
+                $content .= '</li>';
+            }
+            if ($list_locations) {
+                $list_locations_date = $this->githubLatestReleaseDate('list-locations-bmlt');
+                $content .= '<li class="bmlt_versions_li_list_locations">';
+                $content .= '<a href ="https://wordpress.org/plugins/list-locations-bmlt/">List Locations Plugin - ' . $list_locations_date . '</a>';
+                $content .= '</li>';
+            }
+            if ($upcoming_meetings) {
+                $upcoming_meetings_date = $this->githubLatestReleaseDate('upcoming-meetings-bmlt');
+                $content .= '<li class="bmlt_versions_li_upcoming_meetings">';
+                $content .= '<a href ="https://wordpress.org/plugins/upcoming-meetings-bmlt/">Upcoming Meetings Plugin - ' . $upcoming_meetings_date . '</a>';
+                $content .= '</li>';
+            }
+            if ($contacts) {
+                $contacts_date = $this->githubLatestReleaseDate('contacts-bmlt');
+                $content .= '<li class="bmlt_versions_li_contacts">';
+                $content .= '<a href ="https://wordpress.org/plugins/contacts-bmlt/">Contacts Plugin - ' . $contacts_date . '</a>';
                 $content .= '</li>';
             }
             if ($yap) {
