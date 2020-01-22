@@ -18,7 +18,7 @@ jobs:
     - DIST_DIR_GITHUB=dist_bmlt_versions/github
     - ZIP_FILENAME=bmlt-versions.zip
     script:
-    - cd nacc2 && zip -r ${ZIP_FILENAME} *
+    - cd bmlt-versions && zip -r ${ZIP_FILENAME} *
     - mkdir -p $DIST_DIR_GITHUB && mv $ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
     deploy:
     - provider: releases
