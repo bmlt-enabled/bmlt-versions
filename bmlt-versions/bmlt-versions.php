@@ -32,12 +32,13 @@ if (!class_exists("bmltVersions")) {
                 add_shortcode('bmlt_versions', array(&$this, "bmltVersionsFunc"));
             }
         }
-        function bmltVersionsRegisterSettings() {
-            add_option( 'bmltVersionsGithubApiKey', 'Github API Key.');
-            register_setting( 'bmltVersionsOptionGroup', 'bmltVersionsGithubApiKey', 'bmltVersionsCallback' );
+        public function bmltVersionsRegisterSettings()
+        {
+            add_option('bmltVersionsGithubApiKey', 'Github API Key.');
+            register_setting('bmltVersionsOptionGroup', 'bmltVersionsGithubApiKey', 'bmltVersionsCallback');
         }
 
-        function bmltVersionsOptionsPage()
+        public function bmltVersionsOptionsPage()
         {
             add_options_page('BMLT Versions', 'BMLT Versions', 'manage_options', 'bmlt-versions', array(
                 &$this,
@@ -50,7 +51,7 @@ if (!class_exists("bmltVersions")) {
             <div>
                 <h2>BMLT Versions</h2>
                 <form method="post" action="options.php">
-                    <?php settings_fields( 'bmltVersionsOptionGroup' ); ?>
+                    <?php settings_fields('bmltVersionsOptionGroup'); ?>
                     <table>
                         <tr valign="top">
                             <th scope="row"><label for="bmltVersionsGithubApiKey">GitHub API Token</label></th>
