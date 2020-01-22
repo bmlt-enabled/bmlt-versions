@@ -5,9 +5,9 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 # SHORTCODE
 [bmlt_versions]
 
-**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map
+**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts
 Adds ability to hide certain releases, default is to show all or 1.
-
+                
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
 
 
@@ -15,7 +15,7 @@ Ex. [bmlt_versions drupal="0"] would not display drupal link.
 
 # MORE INFORMATION
 
-[https://github.com/pjaudiomv/bmlt-versions](https://github.com/pjaudiomv/bmlt-versions)
+[https://github.com/bmlt-enabled/bmlt-versions](https://github.com/bmlt-enabled/bmlt-versions)
 
 # Installation
 

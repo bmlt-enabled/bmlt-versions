@@ -2,7 +2,7 @@
 
 Contributors: pjaudiomv, radius314
 Tags: bmlt, meeting list
-Tested up to: 5.2.2
+Tested up to: 5.3.2
 Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ Ex. [bmlt_versions drupal="0"] would not display drupal link.
 
 MORE INFORMATION
 
-<a href="https://github.com/pjaudiomv/bmlt-versions" target="_blank">https://github.com/pjaudiomv/bmlt-versions</a>
+<a href="https://github.com/bmlt-enabled/bmlt-versions" target="_blank">https://github.com/bmlt-enabled/bmlt-versions</a>
 
 == Installation ==
 
