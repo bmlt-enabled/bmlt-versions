@@ -3,7 +3,7 @@
 Contributors: pjaudiomv, radius314
 Tags: bmlt, meeting list
 Tested up to: 5.3.2
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,10 +29,15 @@ This section describes how to install the plugin and get it working.
 
 1. Upload the entire BMLT Versions Plugin folder to the /wp-content/plugins/ directory
 2. Activate the plugin through the Plugins menu in WordPress
-3. Add [bmlt_versions] shortcode to your Wordpress page/post.
+3. Add the GitHub API Token to the BMLT Versions settings page WordPress Dashboard->Settings->BMLT Versions
+4. Add [bmlt_versions] shortcode to your Wordpress page/post.
 
 
 == Changelog ==
+
+= 1.3.0 =
+
+* Added settings page for GitHub API Token.
 
 = 1.2.2 =
 

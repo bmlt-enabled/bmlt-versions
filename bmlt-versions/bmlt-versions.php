@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: BMLT Versions
-Plugin URI: https://wordpress.org/plugins/bmlt-versions/
+Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.2.2
+Version: 1.3.0
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -23,10 +23,44 @@ if (!class_exists("bmltVersions")) {
 
         public function __construct()
         {
-                add_shortcode('bmlt_versions', array(
-                    &$this,
-                    "bmltVersionsFunc"
-                ));
+            if (is_admin()) {
+                // Back end
+                add_action("admin_menu", array(&$this, "bmltVersionsOptionsPage"));
+                add_action("admin_init", array(&$this, "bmltVersionsRegisterSettings"));
+            } else {
+                // Front end
+                add_shortcode('bmlt_versions', array(&$this, "bmltVersionsFunc"));
+            }
+        }
+        function bmltVersionsRegisterSettings() {
+            add_option( 'bmltVersionsGithubApiKey', 'Github API Key.');
+            register_setting( 'bmltVersionsOptionGroup', 'bmltVersionsGithubApiKey', 'bmltVersionsCallback' );
+        }
+
+        function bmltVersionsOptionsPage()
+        {
+            add_options_page('BMLT Versions', 'BMLT Versions', 'manage_options', 'bmlt-versions', array(
+                &$this,
+                'bmltVersionsAdminOptionsPage'
+            ));
+        }
+        public function bmltVersionsAdminOptionsPage()
+        {
+            ?>
+            <div>
+                <h2>BMLT Versions</h2>
+                <form method="post" action="options.php">
+                    <?php settings_fields( 'bmltVersionsOptionGroup' ); ?>
+                    <table>
+                        <tr valign="top">
+                            <th scope="row"><label for="bmltVersionsGithubApiKey">GitHub API Token</label></th>
+                            <td><input type="text" id="bmltVersionsGithubApiKey" name="bmltVersionsGithubApiKey" value="<?php echo get_option('bmltVersionsGithubApiKey'); ?>" /></td>
+                        </tr>
+                    </table>
+                    <?php  submit_button(); ?>
+                </form>
+            </div>
+            <?php
         }
 
         public function bmltVersions()
@@ -136,6 +170,7 @@ if (!class_exists("bmltVersions")) {
                 $content .= '<a href ="https://wordpress.org/plugins/contacts-bmlt/">Contacts Plugin - ' . $contacts_date . '</a>';
                 $content .= '</li>';
             }
+
             if ($yap) {
                 $content .= '<li class="bmlt_versions_li_yap">';
                 $yap_version = $this->githubLatestReleaseVersion('yap');
@@ -179,11 +214,13 @@ if (!class_exists("bmltVersions")) {
 
         public function get($url, $cookies = null)
         {
+            $gitHubApiKey = get_option('bmltVersionsGithubApiKey');
+
             $args = array(
                 'timeout' => '120',
                 'headers' => array(
                     'User-Agent' => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) +bmltVersions',
-                    'Authorization' => 'token API_KEY_HERE'
+                    'Authorization' => "token $gitHubApiKey"
                 ),
                 'cookies' => isset($cookies) ? $cookies : null
             );
