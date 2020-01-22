@@ -13,8 +13,12 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
     die('Sorry, but you cannot access this page directly.');
 }
 
-if (!class_exists("BmltVersions")) {
-    class BmltVersions
+if (!class_exists("bmltVersions")) {
+        // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+        // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
+    class bmltVersions
+        // phpcs:enable PSR1.Classes.ClassDeclaration.MissingNamespace
+        // phpcs:enable Squiz.Classes.ValidClassName.NotCamelCaps
     {
 
         public function __construct()
@@ -25,7 +29,7 @@ if (!class_exists("BmltVersions")) {
                 ));
         }
 
-        public function BmltVersions()
+        public function bmltVersions()
         {
             $this->__construct();
         }
@@ -178,7 +182,7 @@ if (!class_exists("BmltVersions")) {
             $args = array(
                 'timeout' => '120',
                 'headers' => array(
-                    'User-Agent' => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) +BmltVersions',
+                    'User-Agent' => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) +bmltVersions',
                     'Authorization' => 'token API_KEY_HERE'
                 ),
                 'cookies' => isset($cookies) ? $cookies : null
@@ -189,6 +193,6 @@ if (!class_exists("BmltVersions")) {
     }
 }
 
-if (class_exists("BmltVersions")) {
-    $BmltVersions_instance = new BmltVersions();
+if (class_exists("bmltVersions")) {
+    $bmltVersions_instance = new bmltVersions();
 }

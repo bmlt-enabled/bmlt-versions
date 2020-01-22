@@ -1,0 +1,48 @@
+language: php
+
+php:
+- '7.1'
+
+jobs:
+  include:
+
+  - stage: lint
+    install:
+    - composer install
+    script:
+    - find . -name "*.php" ! -path '*/vendor/*' -print0 | xargs -0 -n1 -P8 php -l
+    - vendor/squizlabs/php_codesniffer/bin/phpcs --warning-severity=6 --standard=PSR2 --ignore=vendor --extensions=php ./
+  - stage: wordpress-plugin zip file
+    env:
+    - BUILD_DIR=build
+    - DIST_DIR_GITHUB=dist_bmlt_versions/github
+    - ZIP_FILENAME=bmlt-versions.zip
+    script:
+    - cd nacc2 && zip -r ${ZIP_FILENAME} *
+    - mkdir -p $DIST_DIR_GITHUB && mv $ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
+    deploy:
+    - provider: releases
+      api_key:
+        secure: mUOqTwgYqC+VLMAXgU62HZwANcTiAexDA3hDeD3e3z6FRDOkNtmV2CC6NGLPbNXFCt9ZJh9c7ok9YPIjI+dLtDVM71i1efcbEDrF16dPsQNtgXZNzsRdYqK7Q2AmQN1Negry5SzK1S55S1Su9W2t02TF6KgWoYX+INR3A7T1p+4RGxJLllN6NWelW6CUfyGkWV6lG12CFUlGhVZ/hSGYVVDl37INcEZDIgw9olquo3XZU1OrkoWx7vYQo1X6DMz1fYP0ZO0Xe+JzqPLEoIhFoKNfgJHTTxeaY0+jADmMii+19GaJ5OZpmHE8zyJBdi5JDj9vlO2GCBilYncNbWDmzgP2hUyd8CfVcAxuba/rfXgOMiYI1NotHXpI6F5/szy012siXH/Yq7GhFP4pOWwYMeFLcZ6fwWtoV/Uk99yQPnl5QK8tQ4jEwOdd/WCPsQJhvlIvSUr7M/9/xZbSYc2aoCANAT5EkMmZH7vPuBr0s/M/avi4wazedQa00/Wg8ziAc/O4laJ5sZg6umc2NCsd+gsDGNxFtIFPZ6mvPbB+H0Ds30i/VPJoYgQvES75/m4ARIxEPbLttlXbC1WZQALbqF7FJQtPxtzyYkwSG+0iBDipmeTdPVJkA0OVDzxtUu5kj+6a9PmcqtkGV/guddzqLXfGvApEspA9shviH47yTh0=
+      file: "$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME"
+      skip_cleanup: true
+      name: "$TRAVIS_TAG"
+      on:
+        tags: true
+        condition: $TRAVIS_TAG != *beta*
+    - provider: releases
+      api_key:
+        secure: mUOqTwgYqC+VLMAXgU62HZwANcTiAexDA3hDeD3e3z6FRDOkNtmV2CC6NGLPbNXFCt9ZJh9c7ok9YPIjI+dLtDVM71i1efcbEDrF16dPsQNtgXZNzsRdYqK7Q2AmQN1Negry5SzK1S55S1Su9W2t02TF6KgWoYX+INR3A7T1p+4RGxJLllN6NWelW6CUfyGkWV6lG12CFUlGhVZ/hSGYVVDl37INcEZDIgw9olquo3XZU1OrkoWx7vYQo1X6DMz1fYP0ZO0Xe+JzqPLEoIhFoKNfgJHTTxeaY0+jADmMii+19GaJ5OZpmHE8zyJBdi5JDj9vlO2GCBilYncNbWDmzgP2hUyd8CfVcAxuba/rfXgOMiYI1NotHXpI6F5/szy012siXH/Yq7GhFP4pOWwYMeFLcZ6fwWtoV/Uk99yQPnl5QK8tQ4jEwOdd/WCPsQJhvlIvSUr7M/9/xZbSYc2aoCANAT5EkMmZH7vPuBr0s/M/avi4wazedQa00/Wg8ziAc/O4laJ5sZg6umc2NCsd+gsDGNxFtIFPZ6mvPbB+H0Ds30i/VPJoYgQvES75/m4ARIxEPbLttlXbC1WZQALbqF7FJQtPxtzyYkwSG+0iBDipmeTdPVJkA0OVDzxtUu5kj+6a9PmcqtkGV/guddzqLXfGvApEspA9shviH47yTh0=
+      file: "$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME"
+      skip_cleanup: true
+      name: "$TRAVIS_TAG"
+      prerelease: true
+      on:
+        tags: true
+        condition: $TRAVIS_TAG =~ "beta"
+notifications:
+  slack:
+    rooms:
+    - secure: bmoIugz9sorNakDw7LnfC3iB7a4CnhuZeZBAVxefSoqipbZAGLoA86pSaDwSK3kNsCRAUXyHJ0pBxxJuCO5jrQKhl9TNBFQQ60KPvn3LQj9OXXTSHp4qoqBytipQGyjeqySu4fJt8Lc0u8FQ0qinxn21qF7K7c54aygVKQd+nxf/+9rVzSOJIY+c6UEBb9FwKfHl9cOJy8nTHYPNl0ZbQaYVS1gvyOV2jzrlurOXb0t2xYs2W9EOAjUd2E4ZVaD8EEyRZ9zcvy8ne41qZGBLMJjHZo6TdN4x0AdEYiITst5fKj+YILNCaVQMyURu5h65RPVXyjZ/eIOUixSt1EOpMTxWcRiDn3H7B2F7eEUIXyo/c5x1AEWEQFLGK+/PEqWx/zaBG0rJJdzVbLaqet2kg5piy+f84EBCZiXm7CZIYPMSjLJo9AJDcY9iSRgvpRnkSagHZAgMILNut53aNPd8i3FoOeycPwux/KDQpSz0uIpn4xu26VY0bzxJ8N27VugUhmNhLCN05Hgw8GoDjEoh4EgPPsdNVzXT4mzpjx2GfhRZOm/78LUSDB/w3oIAEPzRFfhberBAo0l2w9T5+Ynbw9yyquYgNUOW/nMhbwqOPbWqndHa8Xume0DXp2COHEqoSZx4gDIIRRKjKdsrFjjasWB5K7IQXQfBoiGAL7EscNA=
+    on_success: change
+  email: false
