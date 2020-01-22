@@ -14,17 +14,16 @@ jobs:
     - vendor/squizlabs/php_codesniffer/bin/phpcs --warning-severity=6 --standard=PSR2 --ignore=vendor --extensions=php ./
   - stage: wordpress-plugin zip file
     env:
-    - BUILD_DIR=build
-    - DIST_DIR_GITHUB=dist_bmlt_versions/github
+    - DIST_DIR=dist/github
     - ZIP_FILENAME=bmlt-versions.zip
     script:
     - cd bmlt-versions && zip -r ${ZIP_FILENAME} *
-    - mkdir -p $DIST_DIR_GITHUB && mv $ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
+    - mkdir -p $DIST_DIR && mv $ZIP_FILENAME $DIST_DIR/$ZIP_FILENAME
     deploy:
     - provider: releases
       api_key:
         secure: mUOqTwgYqC+VLMAXgU62HZwANcTiAexDA3hDeD3e3z6FRDOkNtmV2CC6NGLPbNXFCt9ZJh9c7ok9YPIjI+dLtDVM71i1efcbEDrF16dPsQNtgXZNzsRdYqK7Q2AmQN1Negry5SzK1S55S1Su9W2t02TF6KgWoYX+INR3A7T1p+4RGxJLllN6NWelW6CUfyGkWV6lG12CFUlGhVZ/hSGYVVDl37INcEZDIgw9olquo3XZU1OrkoWx7vYQo1X6DMz1fYP0ZO0Xe+JzqPLEoIhFoKNfgJHTTxeaY0+jADmMii+19GaJ5OZpmHE8zyJBdi5JDj9vlO2GCBilYncNbWDmzgP2hUyd8CfVcAxuba/rfXgOMiYI1NotHXpI6F5/szy012siXH/Yq7GhFP4pOWwYMeFLcZ6fwWtoV/Uk99yQPnl5QK8tQ4jEwOdd/WCPsQJhvlIvSUr7M/9/xZbSYc2aoCANAT5EkMmZH7vPuBr0s/M/avi4wazedQa00/Wg8ziAc/O4laJ5sZg6umc2NCsd+gsDGNxFtIFPZ6mvPbB+H0Ds30i/VPJoYgQvES75/m4ARIxEPbLttlXbC1WZQALbqF7FJQtPxtzyYkwSG+0iBDipmeTdPVJkA0OVDzxtUu5kj+6a9PmcqtkGV/guddzqLXfGvApEspA9shviH47yTh0=
-      file: "$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME"
+      file: "$DIST_DIR/$ZIP_FILENAME"
       skip_cleanup: true
       name: "$TRAVIS_TAG"
       on:
@@ -33,7 +32,7 @@ jobs:
     - provider: releases
       api_key:
         secure: mUOqTwgYqC+VLMAXgU62HZwANcTiAexDA3hDeD3e3z6FRDOkNtmV2CC6NGLPbNXFCt9ZJh9c7ok9YPIjI+dLtDVM71i1efcbEDrF16dPsQNtgXZNzsRdYqK7Q2AmQN1Negry5SzK1S55S1Su9W2t02TF6KgWoYX+INR3A7T1p+4RGxJLllN6NWelW6CUfyGkWV6lG12CFUlGhVZ/hSGYVVDl37INcEZDIgw9olquo3XZU1OrkoWx7vYQo1X6DMz1fYP0ZO0Xe+JzqPLEoIhFoKNfgJHTTxeaY0+jADmMii+19GaJ5OZpmHE8zyJBdi5JDj9vlO2GCBilYncNbWDmzgP2hUyd8CfVcAxuba/rfXgOMiYI1NotHXpI6F5/szy012siXH/Yq7GhFP4pOWwYMeFLcZ6fwWtoV/Uk99yQPnl5QK8tQ4jEwOdd/WCPsQJhvlIvSUr7M/9/xZbSYc2aoCANAT5EkMmZH7vPuBr0s/M/avi4wazedQa00/Wg8ziAc/O4laJ5sZg6umc2NCsd+gsDGNxFtIFPZ6mvPbB+H0Ds30i/VPJoYgQvES75/m4ARIxEPbLttlXbC1WZQALbqF7FJQtPxtzyYkwSG+0iBDipmeTdPVJkA0OVDzxtUu5kj+6a9PmcqtkGV/guddzqLXfGvApEspA9shviH47yTh0=
-      file: "$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME"
+      file: "$DIST_DIR/$ZIP_FILENAME"
       skip_cleanup: true
       name: "$TRAVIS_TAG"
       prerelease: true
