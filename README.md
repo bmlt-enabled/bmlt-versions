@@ -28,6 +28,16 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.2.2 =
+
+* Cleanup.
+
+= 1.2.1 =
+
+* Added List Locations.
+* Added Upcoming Meetings.
+* Added Contacts.
+
 = 1.2.0 =
 
 * Rewrote to only use github api for versions.
