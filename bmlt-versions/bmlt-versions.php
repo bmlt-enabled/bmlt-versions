@@ -30,6 +30,7 @@ if (!class_exists("bmltVersions")) {
             } else {
                 // Front end
                 add_shortcode('bmlt_versions', array(&$this, "bmltVersionsFunc"));
+                add_shortcode('bmlt_versions_simple', array(&$this, "bmltVersionsSimpleFunc"));
             }
         }
         public function bmltVersionsRegisterSettings()
@@ -69,6 +70,48 @@ if (!class_exists("bmltVersions")) {
             $this->__construct();
         }
 
+        public function bmltVersionsSimpleFunc($atts = [])
+        {
+            extract(shortcode_atts(array(
+                'root_server'       => '1',
+                'wordpress'         => '1',
+                'drupal'            => '1',
+                'basic'             => '1',
+                'crouton'           => '1',
+                'bread'             => '1',
+                'yap'               => '1',
+                'tabbed_map'        => '1',
+                'meeting_map'       => '1',
+                'list_locations'    => '1',
+                'upcoming_meetings' => '1',
+                'contacts'          => '1'
+            ), $atts));
+
+            $root_server = sanitize_text_field($root_server);
+            $wordpress = sanitize_text_field($wordpress);
+            $drupal = sanitize_text_field($drupal);
+            $basic = sanitize_text_field($basic);
+            $crouton = sanitize_text_field($crouton);
+            $bread = sanitize_text_field($bread);
+            $yap = sanitize_text_field($yap);
+            $tabbed_map = sanitize_text_field($tabbed_map);
+            $meeting_map = sanitize_text_field($meeting_map);
+            $list_locations = sanitize_text_field($list_locations);
+            $upcoming_meetings = sanitize_text_field($upcoming_meetings);
+            $contacts = sanitize_text_field($contacts);
+
+            $rootServer_version = $this->githubLatestReleaseVersion('bmlt-root-server');
+
+            $content = '';
+            if ($root_server) {
+                $content .= '<div class="bmlt_versions_simple_div">';
+                $content .= 'Current version of BMLT:  ';
+                $content .= $rootServer_version;
+                $content .= '</div>';
+            }
+
+            return $content;
+        }
         public function bmltVersionsFunc($atts = [])
         {
             extract(shortcode_atts(array(
