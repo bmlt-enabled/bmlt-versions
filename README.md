@@ -25,6 +25,10 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.3.1 =
+
+* Fix for BMLT Drupal download link.
+
 = 1.3.0 =
 
 * Added settings page for GitHub API Token.
