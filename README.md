@@ -25,6 +25,11 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.4.0 =
+
+* Added CSS.
+* Added Description
+
 = 1.3.1 =
 
 * Fix for BMLT Drupal download link.

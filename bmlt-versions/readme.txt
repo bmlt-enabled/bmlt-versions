@@ -3,7 +3,7 @@
 Contributors: pjaudiomv, radius314
 Tags: bmlt, meeting list
 Tested up to: 5.3.2
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,11 @@ This section describes how to install the plugin and get it working.
 
 
 == Changelog ==
+
+= 1.4.0 =
+
+* Added CSS.
+* Added Description
 
 = 1.3.1 =
 
