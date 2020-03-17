@@ -308,7 +308,7 @@ if (!class_exists("bmltVersions")) {
             }
 
             if ($temporary_closures) {
-                $content .= '<div class="bmlt_versions_div github">';
+                $content .= '<div class="bmlt_versions_div wordpress">';
                 $content .= '<ul class="bmlt_versions_ul">';
                 $content .= '<li class="bmlt_versions_li" id="bmlt-versions-temporary-closures">';
                 $temporary_closures_response = $this->githubLatestReleaseInfo('temporary-closures-bmlt');
