@@ -5,7 +5,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.4.0
+Version: 1.5.0
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -81,18 +81,19 @@ if (!class_exists("bmltVersions")) {
         {
             $argsSimple = shortcode_atts(
                 array(
-                    'root_server'       => '1',
-                    'wordpress'         => '1',
-                    'drupal'            => '1',
-                    'basic'             => '1',
-                    'crouton'           => '1',
-                    'bread'             => '1',
-                    'yap'               => '1',
-                    'tabbed_map'        => '1',
-                    'meeting_map'       => '1',
-                    'list_locations'    => '1',
-                    'upcoming_meetings' => '1',
-                    'contacts'          => '1'
+                    'root_server'        => '1',
+                    'wordpress'          => '1',
+                    'drupal'             => '1',
+                    'basic'              => '1',
+                    'crouton'            => '1',
+                    'bread'              => '1',
+                    'yap'                => '1',
+                    'tabbed_map'         => '1',
+                    'meeting_map'        => '1',
+                    'list_locations'     => '1',
+                    'upcoming_meetings'  => '1',
+                    'contacts'           => '1',
+                    'temporary_closures' => '1'
                 ),
                 $atts
             );
@@ -109,6 +110,7 @@ if (!class_exists("bmltVersions")) {
             $list_locations = sanitize_text_field($argsSimple['list_locations']);
             $upcoming_meetings = sanitize_text_field($argsSimple['upcoming_meetings']);
             $contacts = sanitize_text_field($argsSimple['contacts']);
+            $temporary_closures = sanitize_text_field($argsSimple['temporary_closures']);
 
             $rootServer_version = $this->githubLatestReleaseVersion('bmlt-root-server');
 
@@ -126,18 +128,19 @@ if (!class_exists("bmltVersions")) {
         {
             $args = shortcode_atts(
                 array(
-                    'root_server'       => '1',
-                    'wordpress'         => '1',
-                    'drupal'            => '1',
-                    'basic'             => '1',
-                    'crouton'           => '1',
-                    'bread'             => '1',
-                    'yap'               => '1',
-                    'tabbed_map'        => '1',
-                    'meeting_map'       => '1',
-                    'list_locations'    => '1',
-                    'upcoming_meetings' => '1',
-                    'contacts'          => '1'
+                    'root_server'        => '1',
+                    'wordpress'          => '1',
+                    'drupal'             => '1',
+                    'basic'              => '1',
+                    'crouton'            => '1',
+                    'bread'              => '1',
+                    'yap'                => '1',
+                    'tabbed_map'         => '1',
+                    'meeting_map'        => '1',
+                    'list_locations'     => '1',
+                    'upcoming_meetings'  => '1',
+                    'contacts'           => '1',
+                    'temporary_closures' => '1'
                 ),
                 $atts
             );
@@ -154,6 +157,7 @@ if (!class_exists("bmltVersions")) {
             $list_locations = sanitize_text_field($args['list_locations']);
             $upcoming_meetings = sanitize_text_field($args['upcoming_meetings']);
             $contacts = sanitize_text_field($args['contacts']);
+            $temporary_closures = sanitize_text_field($args['temporary_closures']);
 
             $content = '';
             if ($root_server) {
@@ -313,6 +317,21 @@ if (!class_exists("bmltVersions")) {
                 $content .= '<strong>Yap</strong><br>';
                 $content .= $this->githubReleaseDescription('yap') . '<br><br>';
                 $content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' . '" id="bmlt_versions_release">' . $yap_release_date. '</a></strong>';
+                $content .= '</li>';
+                $content .= '</ul>';
+                $content .= '</div>';
+            }
+
+            if ($temporary_closures) {
+                $content .= '<div class="bmlt_versions_div github">';
+                $content .= '<ul class="bmlt_versions_ul">';
+                $content .= '<li class="bmlt_versions_li" id="bmlt-versions-temporary-closures">';
+                $temporary_closures_response = $this->githubLatestReleaseInfo('temporary-closures-bmlt');
+                $temporary_closures_version = $this->githubLatestReleaseVersion($temporary_closures_response);
+                $temporary_closures_release_date = $this->githubLatestReleaseDate($temporary_closures_response);
+                $content .= '<strong>Yap</strong><br>';
+                $content .= $this->githubReleaseDescription('temporary-closures-bmlt') . '<br><br>';
+                $content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/temporary-closures-bmlt/releases/download/' . $temporary_closures_version . '/temporary-closures-bmlt.zip' . '" id="bmlt_versions_release">' . $temporary_closures_release_date. '</a></strong>';
                 $content .= '</li>';
                 $content .= '</ul>';
                 $content .= '</div>';
