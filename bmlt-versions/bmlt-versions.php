@@ -307,6 +307,21 @@ if (!class_exists("bmltVersions")) {
                 $content .= '</div>';
             }
 
+            if ($temporary_closures) {
+                $content .= '<div class="bmlt_versions_div github">';
+                $content .= '<ul class="bmlt_versions_ul">';
+                $content .= '<li class="bmlt_versions_li" id="bmlt-versions-temporary-closures">';
+                $temporary_closures_response = $this->githubLatestReleaseInfo('temporary-closures-bmlt');
+                $temporary_closures_version = $this->githubLatestReleaseVersion($temporary_closures_response);
+                $temporary_closures_release_date = $this->githubLatestReleaseDate($temporary_closures_response);
+                $content .= '<strong>Temporary Closures</strong><br>';
+                $content .= $this->githubReleaseDescription('temporary-closures-bmlt') . '<br><br>';
+                $content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/temporary-closures-bmlt/releases/download/' . $temporary_closures_version . '/temporary-closures-bmlt.zip' . '" id="bmlt_versions_release">' . $temporary_closures_release_date. '</a></strong>';
+                $content .= '</li>';
+                $content .= '</ul>';
+                $content .= '</div>';
+            }
+
             if ($yap) {
                 $content .= '<div class="bmlt_versions_div github">';
                 $content .= '<ul class="bmlt_versions_ul">';
@@ -317,21 +332,6 @@ if (!class_exists("bmltVersions")) {
                 $content .= '<strong>Yap</strong><br>';
                 $content .= $this->githubReleaseDescription('yap') . '<br><br>';
                 $content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip' . '" id="bmlt_versions_release">' . $yap_release_date. '</a></strong>';
-                $content .= '</li>';
-                $content .= '</ul>';
-                $content .= '</div>';
-            }
-
-            if ($temporary_closures) {
-                $content .= '<div class="bmlt_versions_div github">';
-                $content .= '<ul class="bmlt_versions_ul">';
-                $content .= '<li class="bmlt_versions_li" id="bmlt-versions-temporary-closures">';
-                $temporary_closures_response = $this->githubLatestReleaseInfo('temporary-closures-bmlt');
-                $temporary_closures_version = $this->githubLatestReleaseVersion($temporary_closures_response);
-                $temporary_closures_release_date = $this->githubLatestReleaseDate($temporary_closures_response);
-                $content .= '<strong>Yap</strong><br>';
-                $content .= $this->githubReleaseDescription('temporary-closures-bmlt') . '<br><br>';
-                $content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/temporary-closures-bmlt/releases/download/' . $temporary_closures_version . '/temporary-closures-bmlt.zip' . '" id="bmlt_versions_release">' . $temporary_closures_release_date. '</a></strong>';
                 $content .= '</li>';
                 $content .= '</ul>';
                 $content .= '</div>';
