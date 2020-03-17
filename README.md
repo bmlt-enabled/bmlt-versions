@@ -25,6 +25,9 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.5.0 =
+* Added Temporary Closures
+
 = 1.4.0 =
 
 * Added CSS.
