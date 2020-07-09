@@ -6,7 +6,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 [bmlt_versions]
 
 **Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts
-Adds ability to hide certain releases, default is to show all or 1.
+Adds ability to hide certain releases, default is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
                 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
 
@@ -24,6 +24,9 @@ This section describes how to install the plugin and get it working.
 
 
 # Changelog
+
+= 1.6.0 =
+* Added Sorting Option. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
 
 = 1.5.0 =
 * Added Temporary Closures
