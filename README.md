@@ -25,6 +25,9 @@ This section describes how to install the plugin and get it working.
 
 # Changelog
 
+= 1.6.1 =
+* Fix for simple.
+
 = 1.6.0 =
 * Added Sorting Option. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
 

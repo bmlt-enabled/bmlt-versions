@@ -3,7 +3,7 @@
 Contributors: pjaudiomv, radius314
 Tags: bmlt, meeting list
 Tested up to: 5.3.2
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,9 @@ This section describes how to install the plugin and get it working.
 
 
 == Changelog ==
+
+= 1.6.1 =
+* Fix for simple.
 
 = 1.6.0 =
 * Added Sorting Option. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
