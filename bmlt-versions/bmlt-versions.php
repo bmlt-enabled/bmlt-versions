@@ -114,13 +114,15 @@ if (!class_exists("bmltVersions")) {
             $temporary_closures = sanitize_text_field($argsSimple['temporary_closures']);
             $sort_by = sanitize_text_field($argsSimple['sort_by']);
 
-            $rootServer_version = $this->githubLatestReleaseVersion('bmlt-root-server');
-
             $content = '';
             if ($root_server) {
+                $rootServer_response = $this->githubLatestReleaseInfo('bmlt-root-server');
+                $rootServer_version = $this->githubLatestReleaseVersion($rootServer_response);
+                $rootServer_date = $this->githubLatestReleaseDate($rootServer_response);
+                $rootServer_date_ver = $rootServer_version . ' (' . date("m-d-Y", strtotime($rootServer_date)) . ')';
                 $content .= '<div class="bmlt_versions_simple_div">';
                 $content .= 'Current version of BMLT:  ';
-                $content .= $rootServer_version;
+                $content .= $rootServer_date_ver;
                 $content .= '</div>';
             }
 
@@ -163,7 +165,6 @@ if (!class_exists("bmltVersions")) {
             $temporary_closures = sanitize_text_field($args['temporary_closures']);
             $sort_by = sanitize_text_field($args['sort_by']);
 
-            $content = '';
             $releases = [];
             if ($root_server) {
                 $root_server_content = '<div class="bmlt_versions_div github">';
