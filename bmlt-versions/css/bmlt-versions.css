@@ -32,7 +32,6 @@
     width: 100%;
     margin: auto;
     margin-bottom: 1em;
-    background-image: url('images/github.png');
     background-repeat: no-repeat;
     background-position: 1em 1em;
     -webkit-box-shadow: 2px 2px 2px #ddd;
@@ -42,6 +41,18 @@
 
 .bmlt_versions_simple_div.root-server {
     background-image: url('images/RootServer.png');
+}
+
+.bmlt_versions_simple_div.crouton {
+    background-image: url('images/Crouton.png');
+}
+
+.bmlt_versions_simple_div.bread {
+    background-image: url('images/Bread.png');
+}
+
+.bmlt_versions_simple_div.yap {
+    background-image: url('images/Yap.png');
 }
 
 li.bmlt_versions_li {
