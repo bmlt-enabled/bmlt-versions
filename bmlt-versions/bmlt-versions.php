@@ -140,9 +140,6 @@ if (!class_exists("bmltVersions")) {
                 $root_server_content .= '<strong>Root Server</strong>';
                 $root_server_content .= '</li>';
                 $root_server_content .= '<li class="bmlt_versions_li">';
-                $root_server_content .= $this->githubReleaseDescription('bmlt-root-server');
-                $root_server_content .= '</li>';
-                $root_server_content .= '<li class="bmlt_versions_li">';
                 $root_server_content .= '<strong>Latest Release</br></strong>'. $rootServer_version;
                 $root_server_content .= '</li>';
                 $root_server_content .= '<li class="bmlt_versions_li">';
@@ -173,9 +170,6 @@ if (!class_exists("bmltVersions")) {
                 $crouton_date = $this->githubLatestReleaseDate($crouton_response);
                 $crouton_date_ver = $crouton_version . ' (' . date("m-d-Y", strtotime($crouton_date)) . ')';
                 $crouton_content .= '<strong>Crouton</strong>';
-                $crouton_content .= '</li>';
-                $crouton_content .= '<li class="bmlt_versions_li">';
-                $crouton_content .= $this->githubReleaseDescription('crouton');
                 $crouton_content .= '</li>';
                 $crouton_content .= '<li class="bmlt_versions_li">';
                 $crouton_content .= '<strong>Latest Release</br></strong>'. $crouton_version;
@@ -210,9 +204,6 @@ if (!class_exists("bmltVersions")) {
                 $bread_content .= '<strong>Bread</strong>';
                 $bread_content .= '</li>';
                 $bread_content .= '<li class="bmlt_versions_li">';
-                $bread_content .= $this->githubReleaseDescription('bread');
-                $bread_content .= '</li>';
-                $bread_content .= '<li class="bmlt_versions_li">';
                 $bread_content .= '<strong>Latest Release</br></strong>'. $bread_version;
                 $bread_content .= '</li>';
                 $bread_content .= '<li class="bmlt_versions_li">';
@@ -243,9 +234,6 @@ if (!class_exists("bmltVersions")) {
                 $yap_date = $this->githubLatestReleaseDate($yap_response);
                 $yap_date_ver = $yap_version . ' (' . date("m-d-Y", strtotime($yap_date)) . ')';
                 $yap_content .= '<strong>Yap</strong>';
-                $yap_content .= '</li>';
-                $yap_content .= '<li class="bmlt_versions_li">';
-                $yap_content .= $this->githubReleaseDescription('yap');
                 $yap_content .= '</li>';
                 $yap_content .= '<li class="bmlt_versions_li">';
                 $yap_content .= '<strong>Latest Release</br></strong>'. $yap_version;
