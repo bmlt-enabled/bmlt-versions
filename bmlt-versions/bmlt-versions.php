@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: BMLT Versions 
+Plugin Name: BMLT Versions
 Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.7.0
+Version: 1.7.1
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -14,13 +14,12 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
 }
 
 if (!class_exists("bmltVersions")) {
-        // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
-        // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
+    // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+    // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
     class bmltVersions
         // phpcs:enable PSR1.Classes.ClassDeclaration.MissingNamespace
         // phpcs:enable Squiz.Classes.ValidClassName.NotCamelCaps
     {
-
         public function __construct()
         {
             if (is_admin()) {
@@ -145,14 +144,19 @@ if (!class_exists("bmltVersions")) {
                 $root_server_content .= '<li class="bmlt_versions_li">';
                 $root_server_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($rootServer_date));
                 $root_server_content .= '</li>';
-                if(!empty($rootServerDocs)) {
-                $root_server_content .= '<li class="bmlt_versions_li">';
-                $root_server_content .= '<a href="'. $rootServerDocs .'">View Documentation</a>';
-                $root_server_content .= '</li>';
+                if (!empty($rootServerDocs)) {
+                    $root_server_content .= '<li class="bmlt_versions_li">';
+                    $root_server_content .= '<a href="'. $rootServerDocs .'">View Documentation</a>';
+                    $root_server_content .= '</li>';
                 }
                 $root_server_content .= '<li class="bmlt_versions_li">';
                 $root_server_content .= '<a href="https://github.com/bmlt-enabled/bmlt-root-server" target="_blank">View On Github</a>';
                 $root_server_content .= '</li>';
+                
+                $root_server_content .= '<li class="bmlt_versions_li">';
+                $root_server_content .= '<a href ="https://github.com/bmlt-enabled/bmlt-root-server/releases/download/' . $rootServer_version . '/bmlt-root-server.zip" id="bmlt_versions_release">Download Latest Release</a>';
+                $root_server_content .= '</li>';
+                
                 $root_server_content .= '</ul>';
                 $root_server_content .= '</div>';
                 $releases[0]['content'] = $root_server_content;
@@ -177,14 +181,19 @@ if (!class_exists("bmltVersions")) {
                 $crouton_content .= '<li class="bmlt_versions_li">';
                 $crouton_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($crouton_date));
                 $crouton_content .= '</li>';
-                if(!empty($croutonDocs)) {
-                $crouton_content .= '<li class="bmlt_versions_li">';
-                $crouton_content .= '<a href="'. $croutonDocs .'">View Documentation</a>';
-                $crouton_content .= '</li>';
+                if (!empty($croutonDocs)) {
+                    $crouton_content .= '<li class="bmlt_versions_li">';
+                    $crouton_content .= '<a href="'. $croutonDocs .'">View Documentation</a>';
+                    $crouton_content .= '</li>';
                 }
                 $crouton_content .= '<li class="bmlt_versions_li">';
                 $crouton_content .= '<a href="https://github.com/bmlt-enabled/crouton" target="_blank">View On Github</a>';
                 $crouton_content .= '</li>';
+                
+                $crouton_content .= '<li class="bmlt_versions_li">';
+                $crouton_content .= '<a href ="https://wordpress.org/plugins/crouton/" id="bmlt_versions_release" target="_blank">Download Latest Release</a>';
+                $crouton_content .= '</li>';
+                
                 $crouton_content .= '</ul>';
                 $crouton_content .= '</div>';
                 $releases[4]['content'] = $crouton_content;
@@ -209,14 +218,19 @@ if (!class_exists("bmltVersions")) {
                 $bread_content .= '<li class="bmlt_versions_li">';
                 $bread_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($bread_date));
                 $bread_content .= '</li>';
-                if(!empty($breadDocs)) {
-                $bread_content .= '<li class="bmlt_versions_li">';
-                $bread_content .= '<a href="'. $breadDocs .'">View Documentation</a>';
-                $bread_content .= '</li>';
+                if (!empty($breadDocs)) {
+                    $bread_content .= '<li class="bmlt_versions_li">';
+                    $bread_content .= '<a href="'. $breadDocs .'">View Documentation</a>';
+                    $bread_content .= '</li>';
                 }
                 $bread_content .= '<li class="bmlt_versions_li">';
                 $bread_content .= '<a href="https://github.com/bmlt-enabled/bread" target="_blank">View On Github</a>';
                 $bread_content .= '</li>';
+                
+                $bread_content .= '<li class="bmlt_versions_li">';
+                $bread_content .= '<a href ="https://wordpress.org/plugins/bread/" id="bmlt_versions_release" target="_blank">Download Latest Release</a>';
+                $bread_content .= '</li>';
+                
                 $bread_content .= '</ul>';
                 $bread_content .= '</div>';
                 $releases[5]['content'] = $bread_content;
@@ -241,14 +255,19 @@ if (!class_exists("bmltVersions")) {
                 $yap_content .= '<li class="bmlt_versions_li">';
                 $yap_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($yap_date));
                 $yap_content .= '</li>';
-                if(!empty($yapDocs)) {
-                $yap_content .= '<li class="bmlt_versions_li">';
-                $yap_content .= '<a href="'. $yapDocs .'">View Documentation</a>';
-                $yap_content .= '</li>';
+                if (!empty($yapDocs)) {
+                    $yap_content .= '<li class="bmlt_versions_li">';
+                    $yap_content .= '<a href="'. $yapDocs .'">View Documentation</a>';
+                    $yap_content .= '</li>';
                 }
                 $yap_content .= '<li class="bmlt_versions_li">';
                 $yap_content .= '<a href="https://github.com/bmlt-enabled/yap" target="_blank">View On Github</a>';
                 $yap_content .= '</li>';
+                
+                $yap_content .= '<li class="bmlt_versions_li">';
+                $yap_content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip" id="bmlt_versions_release">Download Latest Release</a>';
+                $yap_content .= '</li>';
+                
                 $yap_content .= '</ul>';
                 $yap_content .= '</div>';
                 $releases[12]['content'] = $yap_content;
