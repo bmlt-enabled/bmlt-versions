@@ -6,6 +6,7 @@ Description: A simple content generator to display the versions and links of the
 Author: BMLT Authors
 Author URI: https://bmlt.app
 Version: 1.7.1
+
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -110,10 +111,17 @@ if (!class_exists("bmltVersions")) {
                     'crouton'            => '1',
                     'bread'              => '1',
                     'yap'                => '1',
+                    'tabbed_map'         => '1',
+                    'meeting_map'        => '1',
+                    'list_locations'     => '1',
+                    'upcoming_meetings'  => '1',
+                    'contacts'           => '1',
+                    'temporary_closures' => '1',
                     'sort_by'            => 'date'
                 ),
                 $atts
             );
+
 
             $root_server = sanitize_text_field($args['root_server']);
             $crouton = sanitize_text_field($args['crouton']);
@@ -126,16 +134,35 @@ if (!class_exists("bmltVersions")) {
             $breadDocs = get_option('breadDoc');
             $yapDocs = get_option('yapDoc');
 
+            $root_server = sanitize_text_field($argsSimple['root_server']);
+            $wordpress = sanitize_text_field($argsSimple['wordpress']);
+            $drupal = sanitize_text_field($argsSimple['drupal']);
+            $basic = sanitize_text_field($argsSimple['basic']);
+            $crouton = sanitize_text_field($argsSimple['crouton']);
+            $bread = sanitize_text_field($argsSimple['bread']);
+            $yap = sanitize_text_field($argsSimple['yap']);
+            $tabbed_map = sanitize_text_field($argsSimple['tabbed_map']);
+            $meeting_map = sanitize_text_field($argsSimple['meeting_map']);
+            $list_locations = sanitize_text_field($argsSimple['list_locations']);
+            $upcoming_meetings = sanitize_text_field($argsSimple['upcoming_meetings']);
+            $contacts = sanitize_text_field($argsSimple['contacts']);
+            $temporary_closures = sanitize_text_field($argsSimple['temporary_closures']);
+            $sort_by = sanitize_text_field($argsSimple['sort_by']);
+
+
             $content = '';
             $releases = [];
             if ($root_server) {
+
                 $root_server_content = '<div class="bmlt_versions_simple_div root-server">';
                 $root_server_content .= '<ul class="bmlt_versions_ul">';
                 $root_server_content .= '<li class="bmlt_versions_li" id="bmlt-versions-root">';
+
                 $rootServer_response = $this->githubLatestReleaseInfo('bmlt-root-server');
                 $rootServer_version = $this->githubLatestReleaseVersion($rootServer_response);
                 $rootServer_date = $this->githubLatestReleaseDate($rootServer_response);
                 $rootServer_date_ver = $rootServer_version . ' (' . date("m-d-Y", strtotime($rootServer_date)) . ')';
+
                 $root_server_content .= '<strong>Root Server</strong>';
                 $root_server_content .= '</li>';
                 $root_server_content .= '<li class="bmlt_versions_li">';
@@ -163,6 +190,12 @@ if (!class_exists("bmltVersions")) {
                 $releases[0]['name'] = "root-server";
                 $releases[0]['date'] = strtotime($rootServer_date);
                 $releases[0]['version'] = $rootServer_version;
+
+                $content .= '<div class="bmlt_versions_simple_div">';
+                $content .= 'Current version of BMLT:  ';
+                $content .= $rootServer_date_ver;
+                $content .= '</div>';
+
             }
 
             if ($crouton) {
@@ -328,6 +361,7 @@ if (!class_exists("bmltVersions")) {
             $sort_by = sanitize_text_field($args['sort_by']);
 
             $content = '';
+
             $releases = [];
             if ($root_server) {
                 $root_server_content = '<div class="bmlt_versions_div github">';
