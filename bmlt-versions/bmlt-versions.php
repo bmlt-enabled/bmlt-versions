@@ -5,7 +5,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.6.1
+Version: 1.7.1
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -14,13 +14,12 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
 }
 
 if (!class_exists("bmltVersions")) {
-        // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
-        // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
+    // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+    // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
     class bmltVersions
         // phpcs:enable PSR1.Classes.ClassDeclaration.MissingNamespace
         // phpcs:enable Squiz.Classes.ValidClassName.NotCamelCaps
     {
-
         public function __construct()
         {
             if (is_admin()) {
@@ -42,8 +41,16 @@ if (!class_exists("bmltVersions")) {
 
         public function bmltVersionsRegisterSettings()
         {
+            add_option('rootServerDoc', 'Root Server Documentation Link');
+            add_option('croutonDoc', 'Crouton Documentation Link');
+            add_option('yapDoc', 'Yap Documentation Link');
+            add_option('breadDoc', 'Bread Documentation Link');
             add_option('bmltVersionsGithubApiKey', 'Github API Key.');
             register_setting('bmltVersionsOptionGroup', 'bmltVersionsGithubApiKey', 'bmltVersionsCallback');
+            register_setting('bmltVersionsOptionGroup', 'rootServerDoc', 'bmltVersionsCallback');
+            register_setting('bmltVersionsOptionGroup', 'croutonDoc', 'bmltVersionsCallback');
+            register_setting('bmltVersionsOptionGroup', 'yapDoc', 'bmltVersionsCallback');
+            register_setting('bmltVersionsOptionGroup', 'breadDoc', 'bmltVersionsCallback');
         }
 
         public function bmltVersionsOptionsPage()
@@ -58,12 +65,30 @@ if (!class_exists("bmltVersions")) {
             ?>
             <div>
                 <h2>BMLT Versions</h2>
+                <p>You must activate a github personal access token to use this plugin. Instructions can be found here <a herf="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</a>.</p>
+                <p>Links for documentation are optional and only configured for [bmlt_versions_simple]. You can find all the the documentations pages here <a href="https://bmlt.app">https://bmlt.app</a>. If inputs are left blank, "View Documentation" link will not display on the front end</p>
                 <form method="post" action="options.php">
                     <?php settings_fields('bmltVersionsOptionGroup'); ?>
                     <table>
                         <tr valign="top">
                             <th scope="row"><label for="bmltVersionsGithubApiKey">GitHub API Token</label></th>
                             <td><input type="text" id="bmltVersionsGithubApiKey" name="bmltVersionsGithubApiKey" value="<?php echo get_option('bmltVersionsGithubApiKey'); ?>" /></td>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row"><label for="rootServerDoc">Root Server Documentation</label></th>
+                            <td><input type="text" id="rootServerDoc" name="rootServerDoc" value="<?php echo get_option('rootServerDoc'); ?>" /></td>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row"><label for="croutonDoc">Crouton Documentation</label></th>
+                            <td><input type="text" id="croutonDoc" name="croutonDoc" value="<?php echo get_option('croutonDoc'); ?>" /></td>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row"><label for="yapDoc">Yap Documentation</label></th>
+                            <td><input type="text" id="yapDoc" name="yapDoc" value="<?php echo get_option('yapDoc'); ?>" /></td>
+                        </tr>
+                        <tr valign="top">
+                            <th scope="row"><label for="breadDoc">Bread Documentation</label></th>
+                            <td><input type="text" id="breadDoc" name="breadDoc" value="<?php echo get_option('breadDoc'); ?>" /></td>
                         </tr>
                     </table>
                     <?php  submit_button(); ?>
@@ -79,54 +104,191 @@ if (!class_exists("bmltVersions")) {
 
         public function bmltVersionsSimpleFunc($atts = [])
         {
-            $argsSimple = shortcode_atts(
+            $args = shortcode_atts(
                 array(
                     'root_server'        => '1',
-                    'wordpress'          => '1',
-                    'drupal'             => '1',
-                    'basic'              => '1',
                     'crouton'            => '1',
                     'bread'              => '1',
                     'yap'                => '1',
-                    'tabbed_map'         => '1',
-                    'meeting_map'        => '1',
-                    'list_locations'     => '1',
-                    'upcoming_meetings'  => '1',
-                    'contacts'           => '1',
-                    'temporary_closures' => '1',
                     'sort_by'            => 'date'
                 ),
                 $atts
             );
 
-            $root_server = sanitize_text_field($argsSimple['root_server']);
-            $wordpress = sanitize_text_field($argsSimple['wordpress']);
-            $drupal = sanitize_text_field($argsSimple['drupal']);
-            $basic = sanitize_text_field($argsSimple['basic']);
-            $crouton = sanitize_text_field($argsSimple['crouton']);
-            $bread = sanitize_text_field($argsSimple['bread']);
-            $yap = sanitize_text_field($argsSimple['yap']);
-            $tabbed_map = sanitize_text_field($argsSimple['tabbed_map']);
-            $meeting_map = sanitize_text_field($argsSimple['meeting_map']);
-            $list_locations = sanitize_text_field($argsSimple['list_locations']);
-            $upcoming_meetings = sanitize_text_field($argsSimple['upcoming_meetings']);
-            $contacts = sanitize_text_field($argsSimple['contacts']);
-            $temporary_closures = sanitize_text_field($argsSimple['temporary_closures']);
-            $sort_by = sanitize_text_field($argsSimple['sort_by']);
+            $root_server = sanitize_text_field($args['root_server']);
+            $crouton = sanitize_text_field($args['crouton']);
+            $bread = sanitize_text_field($args['bread']);
+            $yap = sanitize_text_field($args['yap']);
+            $sort_by = sanitize_text_field($args['sort_by']);
+
+            $rootServerDocs = get_option('rootServerDoc');
+            $croutonDocs = get_option('croutonDoc');
+            $breadDocs = get_option('breadDoc');
+            $yapDocs = get_option('yapDoc');
 
             $content = '';
+            $releases = [];
             if ($root_server) {
+                $root_server_content = '<div class="bmlt_versions_simple_div root-server">';
+                $root_server_content .= '<ul class="bmlt_versions_ul">';
+                $root_server_content .= '<li class="bmlt_versions_li" id="bmlt-versions-root">';
                 $rootServer_response = $this->githubLatestReleaseInfo('bmlt-root-server');
                 $rootServer_version = $this->githubLatestReleaseVersion($rootServer_response);
                 $rootServer_date = $this->githubLatestReleaseDate($rootServer_response);
                 $rootServer_date_ver = $rootServer_version . ' (' . date("m-d-Y", strtotime($rootServer_date)) . ')';
-                $content .= '<div class="bmlt_versions_simple_div">';
-                $content .= 'Current version of BMLT:  ';
-                $content .= $rootServer_date_ver;
-                $content .= '</div>';
+                $root_server_content .= '<strong>Root Server</strong>';
+                $root_server_content .= '</li>';
+                $root_server_content .= '<li class="bmlt_versions_li">';
+                $root_server_content .= '<strong>Latest Release</br></strong>'. $rootServer_version;
+                $root_server_content .= '</li>';
+                $root_server_content .= '<li class="bmlt_versions_li">';
+                $root_server_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($rootServer_date));
+                $root_server_content .= '</li>';
+                if (!empty($rootServerDocs)) {
+                    $root_server_content .= '<li class="bmlt_versions_li">';
+                    $root_server_content .= '<a href="'. $rootServerDocs .'">View Documentation</a>';
+                    $root_server_content .= '</li>';
+                }
+                $root_server_content .= '<li class="bmlt_versions_li">';
+                $root_server_content .= '<a href="https://github.com/bmlt-enabled/bmlt-root-server" target="_blank">View On Github</a>';
+                $root_server_content .= '</li>';
+                
+                $root_server_content .= '<li class="bmlt_versions_li">';
+                $root_server_content .= '<a href ="https://github.com/bmlt-enabled/bmlt-root-server/releases/download/' . $rootServer_version . '/bmlt-root-server.zip" id="bmlt_versions_release">Download Latest Release</a>';
+                $root_server_content .= '</li>';
+                
+                $root_server_content .= '</ul>';
+                $root_server_content .= '</div>';
+                $releases[0]['content'] = $root_server_content;
+                $releases[0]['name'] = "root-server";
+                $releases[0]['date'] = strtotime($rootServer_date);
+                $releases[0]['version'] = $rootServer_version;
             }
 
-            return $content;
+            if ($crouton) {
+                $crouton_content = '<div class="bmlt_versions_simple_div crouton">';
+                $crouton_content .= '<ul class="bmlt_versions_ul">';
+                $crouton_content .= '<li class="bmlt_versions_li" id="crouton">';
+                $crouton_response = $this->githubLatestReleaseInfo('crouton');
+                $crouton_version = $this->githubLatestReleaseVersion($crouton_response);
+                $crouton_date = $this->githubLatestReleaseDate($crouton_response);
+                $crouton_date_ver = $crouton_version . ' (' . date("m-d-Y", strtotime($crouton_date)) . ')';
+                $crouton_content .= '<strong>Crouton</strong>';
+                $crouton_content .= '</li>';
+                $crouton_content .= '<li class="bmlt_versions_li">';
+                $crouton_content .= '<strong>Latest Release</br></strong>'. $crouton_version;
+                $crouton_content .= '</li>';
+                $crouton_content .= '<li class="bmlt_versions_li">';
+                $crouton_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($crouton_date));
+                $crouton_content .= '</li>';
+                if (!empty($croutonDocs)) {
+                    $crouton_content .= '<li class="bmlt_versions_li">';
+                    $crouton_content .= '<a href="'. $croutonDocs .'">View Documentation</a>';
+                    $crouton_content .= '</li>';
+                }
+                $crouton_content .= '<li class="bmlt_versions_li">';
+                $crouton_content .= '<a href="https://github.com/bmlt-enabled/crouton" target="_blank">View On Github</a>';
+                $crouton_content .= '</li>';
+                
+                $crouton_content .= '<li class="bmlt_versions_li">';
+                $crouton_content .= '<a href ="https://wordpress.org/plugins/crouton/" id="bmlt_versions_release" target="_blank">Download Latest Release</a>';
+                $crouton_content .= '</li>';
+                
+                $crouton_content .= '</ul>';
+                $crouton_content .= '</div>';
+                $releases[4]['content'] = $crouton_content;
+                $releases[4]['name'] = "crouton";
+                $releases[4]['date'] = strtotime($crouton_date);
+                $releases[4]['version'] = $crouton_version;
+            }
+
+            if ($bread) {
+                $bread_content = '<div class="bmlt_versions_simple_div bread">';
+                $bread_content .= '<ul class="bmlt_versions_ul">';
+                $bread_content .= '<li class="bmlt_versions_li" id="bread">';
+                $bread_response = $this->githubLatestReleaseInfo('bread');
+                $bread_version = $this->githubLatestReleaseVersion($bread_response);
+                $bread_date = $this->githubLatestReleaseDate($bread_response);
+                $bread_date_ver = $bread_version . ' (' . date("m-d-Y", strtotime($bread_date)) . ')';
+                $bread_content .= '<strong>Bread</strong>';
+                $bread_content .= '</li>';
+                $bread_content .= '<li class="bmlt_versions_li">';
+                $bread_content .= '<strong>Latest Release</br></strong>'. $bread_version;
+                $bread_content .= '</li>';
+                $bread_content .= '<li class="bmlt_versions_li">';
+                $bread_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($bread_date));
+                $bread_content .= '</li>';
+                if (!empty($breadDocs)) {
+                    $bread_content .= '<li class="bmlt_versions_li">';
+                    $bread_content .= '<a href="'. $breadDocs .'">View Documentation</a>';
+                    $bread_content .= '</li>';
+                }
+                $bread_content .= '<li class="bmlt_versions_li">';
+                $bread_content .= '<a href="https://github.com/bmlt-enabled/bread" target="_blank">View On Github</a>';
+                $bread_content .= '</li>';
+                
+                $bread_content .= '<li class="bmlt_versions_li">';
+                $bread_content .= '<a href ="https://wordpress.org/plugins/bread/" id="bmlt_versions_release" target="_blank">Download Latest Release</a>';
+                $bread_content .= '</li>';
+                
+                $bread_content .= '</ul>';
+                $bread_content .= '</div>';
+                $releases[5]['content'] = $bread_content;
+                $releases[5]['name'] = "bread";
+                $releases[5]['date'] = strtotime($bread_date);
+                $releases[5]['version'] = $bread_version;
+            }
+
+            if ($yap) {
+                $yap_content = '<div class="bmlt_versions_simple_div yap">';
+                $yap_content .= '<ul class="bmlt_versions_ul">';
+                $yap_content .= '<li class="bmlt_versions_li" id="yap">';
+                $yap_response = $this->githubLatestReleaseInfo('yap');
+                $yap_version = $this->githubLatestReleaseVersion($yap_response);
+                $yap_date = $this->githubLatestReleaseDate($yap_response);
+                $yap_date_ver = $yap_version . ' (' . date("m-d-Y", strtotime($yap_date)) . ')';
+                $yap_content .= '<strong>Yap</strong>';
+                $yap_content .= '</li>';
+                $yap_content .= '<li class="bmlt_versions_li">';
+                $yap_content .= '<strong>Latest Release</br></strong>'. $yap_version;
+                $yap_content .= '</li>';
+                $yap_content .= '<li class="bmlt_versions_li">';
+                $yap_content .= '<strong>Release Date</br></strong>'. date("m-d-Y", strtotime($yap_date));
+                $yap_content .= '</li>';
+                if (!empty($yapDocs)) {
+                    $yap_content .= '<li class="bmlt_versions_li">';
+                    $yap_content .= '<a href="'. $yapDocs .'">View Documentation</a>';
+                    $yap_content .= '</li>';
+                }
+                $yap_content .= '<li class="bmlt_versions_li">';
+                $yap_content .= '<a href="https://github.com/bmlt-enabled/yap" target="_blank">View On Github</a>';
+                $yap_content .= '</li>';
+                
+                $yap_content .= '<li class="bmlt_versions_li">';
+                $yap_content .= '<a href ="https://github.com/bmlt-enabled/yap/releases/download/' . $yap_version . '/yap-' . $yap_version . '.zip" id="bmlt_versions_release">Download Latest Release</a>';
+                $yap_content .= '</li>';
+                
+                $yap_content .= '</ul>';
+                $yap_content .= '</div>';
+                $releases[12]['content'] = $yap_content;
+                $releases[12]['name'] = "yap";
+                $releases[12]['date'] = strtotime($yap_date);
+                $releases[12]['version'] = $yap_version;
+            }
+
+            if ($sort_by == "name") {
+                usort($releases, function ($a, $b) {
+                    return strnatcasecmp($a['name'], $b['name']);
+                });
+            } else {
+                usort($releases, function ($a, $b) {
+                    return strnatcasecmp($b['date'], $a['date']);
+                });
+            }
+
+            foreach ($releases as $release) {
+                echo $release['content'];
+            }
         }
         public function bmltVersionsFunc($atts = [])
         {
@@ -165,6 +327,7 @@ if (!class_exists("bmltVersions")) {
             $temporary_closures = sanitize_text_field($args['temporary_closures']);
             $sort_by = sanitize_text_field($args['sort_by']);
 
+            $content = '';
             $releases = [];
             if ($root_server) {
                 $root_server_content = '<div class="bmlt_versions_div github">';
