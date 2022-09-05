@@ -20,7 +20,7 @@ jobs:
           zip -r ${ARTIFACT_FILENAME} ${ARTIFACT_FILE}
           curl -sLO https://raw.githubusercontent.com/bmlt-enabled/release-notes-tool/master/gh-release-notes.sh
           chmod +x gh-release-notes.sh
-          ./gh-release-notes.sh CHANGELOG.md "##"
+          ./gh-release-notes.sh bmlt-versions/readme.txt "wp"
 
       - name: Prepare artifact metadata
         id: prepare_artifact_metadata

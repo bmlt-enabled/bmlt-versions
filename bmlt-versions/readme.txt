@@ -35,6 +35,9 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 1.7.0 =
+* Modified simple shortcode to display main bmlt apps and relevant info for bmlt.app
+
 = 1.6.1 =
 * Fix for simple.
 
