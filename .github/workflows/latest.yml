@@ -1,0 +1,34 @@
+name: 'latest'
+
+on:
+  push:
+    branches: [ 'master' ]
+
+jobs:
+  deploy-bmlt-portal-latest:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+        id: code-checkout
+
+      - name: Prepare zip file
+        run: |
+          export ARTIFACT_FILE=bmlt-versions
+          export ARTIFACT_FILENAME=bmlt-versions.zip
+          echo "ARTIFACT_FILENAME=${ARTIFACT_FILENAME}" >> $GITHUB_ENV
+          echo ${GITHUB_SHA} > ${ARTIFACT_FILE}/build.txt
+          zip -r ${ARTIFACT_FILENAME} ${ARTIFACT_FILE}
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions/gh-ci-s3-artifact
+          role-session-name: gh-actions-bmlt-versions
+          aws-region: us-east-1
+
+      - name: copy artifact to s3
+        run: |
+          aws s3 cp ${ARTIFACT_FILENAME} s3://${{ secrets.S3_BUCKET }}/bmlt-versions/bmlt-portal-build${GITHUB_RUN_NUMBER}-${GITHUB_SHA}
