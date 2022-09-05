@@ -5,7 +5,7 @@ on:
     branches: [ 'master' ]
 
 jobs:
-  deploy-bmlt-portal-latest:
+  deploy-bmlt-versions-latest:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
