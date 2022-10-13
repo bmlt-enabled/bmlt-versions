@@ -5,7 +5,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: BMLT Authors
 Author URI: https://bmlt.app
-Version: 1.6.1
+Version: 1.7.1
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -635,7 +635,7 @@ if (!class_exists("bmltVersions")) {
             $args = array(
                 'timeout' => '120',
                 'headers' => array(
-                    'User-Agent' => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) +bmltVersions',
+                    'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0 +bmltVersions',
                     'Authorization' => "token $gitHubApiKey"
                 ),
                 'cookies' => isset($cookies) ? $cookies : null
