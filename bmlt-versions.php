@@ -627,7 +627,7 @@ if (!class_exists("bmltVersions")) {
                 $releases[12]['version'] = $yap_version;
             }
 
-             if ($workflow) {
+            if ($workflow) {
                 $workflow_content = '<div class="bmlt_versions_div github">';
                 $workflow_content .= '<ul class="bmlt_versions_ul">';
                 $workflow_content .= '<li class="bmlt_versions_li" id="bmlt-versions-workflow">';
