@@ -312,7 +312,7 @@ if (!class_exists("bmltVersions")) {
                 $workflow_content .= '</li>';
 
                 $workflow_content .= '<li class="bmlt_versions_li">';
-                $workflow_content .= '<a href ="https://github.com/bmlt-enabled/bmlt-workflow/releases/download/' . $workflow_version . '/workflow-' . $workflow_version . '.zip" id="bmlt_versions_release">Download Latest Release</a>';
+                $workflow_content .= '<a href ="https://github.com/bmlt-enabled/bmlt-workflow/releases/download/' . $workflow_version . '/bmlt-workflow.zip" id="bmlt_versions_release">Download Latest Release</a>';
                 $workflow_content .= '</li>';
 
                 $workflow_content .= '</ul>';
@@ -636,8 +636,8 @@ if (!class_exists("bmltVersions")) {
                 $workflow_date = $this->githubLatestReleaseDate($workflow_response);
                 $workflow_date_ver = $workflow_version . ' (' . date("m-d-Y", strtotime($workflow_date)) . ')';
                 $workflow_content .= '<strong>BMLT Workflow</strong><br>';
-                $workflow_content .= $this->githubReleaseDescription('workflow') . '<br><br>';
-                $workflow_content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/bmlt-workflow/releases/download/' . $workflow_version . '/workflow-' . $workflow_version . '.zip' . '" id="bmlt_versions_release">' . $workflow_date_ver. '</a></strong>';
+                $workflow_content .= $this->githubReleaseDescription('bmlt-workflow') . '<br><br>';
+                $workflow_content .= 'Latest Release : <strong><a href ="https://github.com/bmlt-enabled/bmlt-workflow/releases/download/' . $workflow_version . '/bmlt-workflow.zip' . '" id="bmlt_versions_release">' . $workflow_date_ver. '</a></strong>';
                 $workflow_content .= '</li>';
                 $workflow_content .= '</ul>';
                 $workflow_content .= '</div>';
