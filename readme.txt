@@ -37,6 +37,7 @@ This section describes how to install the plugin and get it working.
 
 = 1.7.1 =
 * Update user agent.
+* Added BMLT Workflow Plugin.
 
 = 1.7.0 =
 * Modified simple shortcode to display main bmlt apps and relevant info for bmlt.app
