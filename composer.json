@@ -1,8 +1,14 @@
 {
+  "name": "bmlt/bmlt-versions",
+  "description": "This is a WordPress plugin for BMLT Versions.",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pjaudiomv"
+    }
+  ],
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*"
-  },
-  "name": "bmlt-enabled/bmlt-versions",
-  "description": "dependencies for bmlt versions",
-  "license": "MIT"
+  }
 }
