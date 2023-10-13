@@ -1,5 +1,5 @@
 COMMIT := $(shell git rev-parse --short=8 HEAD)
-ZIP_FILENAME := $(or $(ZIP_FILENAME),"bmlt-build-file.zip")
+ZIP_FILENAME := $(or $(ZIP_FILENAME),"bmlt-versions.zip")
 BUILD_DIR := $(or $(BUILD_DIR),"build")
 VENDOR_AUTOLOAD := vendor/autoload.php
 
@@ -9,7 +9,7 @@ help:  ## Print the help documentation
 .PHONY: build
 build:  ## Build
 	git archive --format=zip --output=${ZIP_FILENAME} $(COMMIT)
-	mkdir ${BUILD_DIR} && mv ${ZIP_FILENAME} ${BUILD_DIR}/
+	mkdir -p ${BUILD_DIR} && mv ${ZIP_FILENAME} ${BUILD_DIR}/
 
 .PHONY: clean
 clean:  ## clean

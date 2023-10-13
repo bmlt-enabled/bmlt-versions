@@ -1,9 +1,9 @@
 === BMLT Versions ===
 
-Contributors: pjaudiomv, radius314
+Contributors: pjaudiomv, GarrettWeinberg, tempsaint, dgershman
 Tags: bmlt, meeting list
-Tested up to: 6.2.2
-Stable tag: 1.7.1
+Tested up to: 6.3.2
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,10 +14,20 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 SHORTCODE
 [bmlt_versions]
 
-**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts, temporary_closures
-Adds ability to hide certain releases, default is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
+**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts, temporary_closures, workflow
+Adds ability to hide certain releases, default for most is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
+
+
+[bmlt_versions_simple]
+
+This is just a more concise and simple display but allows you to add documentation links in dashboard settings.
+**Attributes:** root_server, crouton, bread, yap, workflow
+Adds ability to hide certain releases, default is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions_simple sort_by="name"] or [bmlt_versions_simple sort_by="date"] defaults to date if not specified.
+
+Ex. [bmlt_versions_simple drupal="0"] would not display drupal link.
+
 
 MORE INFORMATION
 
@@ -30,10 +40,13 @@ This section describes how to install the plugin and get it working.
 1. Upload the entire BMLT Versions Plugin folder to the /wp-content/plugins/ directory
 2. Activate the plugin through the Plugins menu in WordPress
 3. Add the GitHub API Token to the BMLT Versions settings page WordPress Dashboard->Settings->BMLT Versions
-4. Add [bmlt_versions] shortcode to your Wordpress page/post.
+4. Add [bmlt_versions] or [bmlt_versions_simple] shortcode to your Wordpress page/post.
 
 
 == Changelog ==
+
+= 1.8.0 =
+* Refactored codebase.
 
 = 1.7.1 =
 * Update user agent.
