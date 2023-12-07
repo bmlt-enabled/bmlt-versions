@@ -6,7 +6,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: bmlt-enabled
 Author URI: https://bmlt.app
-Version: 1.8.0
+Version: 1.8.1
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -68,7 +68,7 @@ class BmltVersions
         ?>
             <div>
                 <h2>BMLT Versions</h2>
-                <p>You must activate a GitHub personal access token to use this plugin. Instructions can be found here <a herf="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</a>.</p>
+                <p>You must activate a GitHub personal access token to use this plugin. Instructions can be found here <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</a>.</p>
                 <p>Links for documentation are optional and only configured for [bmlt_versions_simple]. You can find all the documentations pages here <a href="https://bmlt.app">https://bmlt.app</a>. If inputs are left blank, "View Documentation" link will not display on the front end</p>
                 <form method="post" action="options.php">
                 <?php settings_fields('bmltVersionsOptionGroup'); ?>
@@ -311,12 +311,12 @@ class BmltVersions
 
     public function githubLatestReleaseVersion($result)
     {
-        return $result['tag_name'];
+        return $result['tag_name'] ?? '';
     }
 
     public function githubLatestReleaseDate($result)
     {
-        return $result['published_at'];
+        return $result['published_at'] ?? '';
     }
 
     public function githubReleaseDescription($repo)
@@ -343,7 +343,7 @@ class BmltVersions
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0 +bmltVersions',
                 'Authorization' => "token $gitHubApiKey"
             ],
-            'cookies' => isset($cookies) ? $cookies : null
+            'cookies' => $cookies ?? null
         ];
 
         return wp_remote_get($url, $args);
