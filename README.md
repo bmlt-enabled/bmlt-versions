@@ -5,7 +5,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 SHORTCODE
 [bmlt_versions]
 
-**Attributes:** root_server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts, temporary_closures, workflow
+**Attributes:** server, wordpress, drupal, basic, crouton, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts, temporary_closures, workflow
 Adds ability to hide certain releases, default for most is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
@@ -14,7 +14,7 @@ Ex. [bmlt_versions drupal="0"] would not display drupal link.
 [bmlt_versions_simple]
 
 This is just a more concise and simple display but allows you to add documentation links in dashboard settings.
-**Attributes:** root_server, crouton, bread, yap, workflow
+**Attributes:** server, crouton, bread, yap, workflow
 Adds ability to hide certain releases, default is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions_simple sort_by="name"] or [bmlt_versions_simple sort_by="date"] defaults to date if not specified.
 
 Ex. [bmlt_versions_simple drupal="0"] would not display drupal link.

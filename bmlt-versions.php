@@ -45,7 +45,7 @@ class BmltVersions
     public function bmltVersionsRegisterSettings()
     {
         $options = [
-            'rootServerDoc' => 'Root Server Documentation Link',
+            'serverDoc' => 'Server Documentation Link',
             'croutonDoc' => 'Crouton Documentation Link',
             'yapDoc' => 'Yap Documentation Link',
             'breadDoc' => 'Bread Documentation Link',
@@ -78,8 +78,8 @@ class BmltVersions
                             <td><input type="text" id="bmltVersionsGithubApiKey" name="bmltVersionsGithubApiKey" value="<?php echo get_option('bmltVersionsGithubApiKey'); ?>" /></td>
                         </tr>
                         <tr valign="top">
-                            <th scope="row"><label for="rootServerDoc">Server Documentation</label></th>
-                            <td><input type="text" id="rootServerDoc" name="rootServerDoc" value="<?php echo get_option('rootServerDoc'); ?>" /></td>
+                            <th scope="row"><label for="serverDoc">Server Documentation</label></th>
+                            <td><input type="text" id="serverDoc" name="serverDoc" value="<?php echo get_option('serverDoc'); ?>" /></td>
                         </tr>
                         <tr valign="top">
                             <th scope="row"><label for="croutonDoc">Crouton Documentation</label></th>
@@ -110,7 +110,7 @@ class BmltVersions
         $content = '';
         $args = shortcode_atts(
             [
-                'root_server' => '1',
+                'server' => '1',
                 'crouton'     => '1',
                 'bread'       => '1',
                 'yap'         => '1',
@@ -121,10 +121,10 @@ class BmltVersions
         );
 
         $products = [
-            'root_server' => [
+            'server' => [
                 'github_name' => 'bmlt-server',
                 'display_name' => 'BMLT Server',
-                'docs_option_name' => 'rootServerDoc',
+                'docs_option_name' => 'serverDoc',
                 'download_url' => 'https://github.com/bmlt-enabled/bmlt-server/releases/',
                 'github_url' => 'https://github.com/bmlt-enabled/bmlt-server'
             ],
@@ -214,7 +214,7 @@ class BmltVersions
     public function bmltVersionsFunc($atts = [])
     {
         $defaults = [
-            'root_server' => '1',
+            'server' => '1',
             'wordpress' => '0',
             'drupal' => '0',
             'basic' => '0',
@@ -237,7 +237,7 @@ class BmltVersions
         }
 
         $repositories = [
-            'root_server' => ['display_name' => 'BMLT Server', 'name' => 'bmlt-root-server', 'source' => 'github'],
+            'server' => ['display_name' => 'BMLT Server', 'name' => 'bmlt-server', 'source' => 'github'],
             'yap' => ['display_name' => 'Yap', 'name' => 'yap', 'source' => 'github'],
             'wordpress' => ['display_name' => 'Wordpress Satellite', 'name' => 'bmlt-wordpress-satellite-plugin', 'source' => 'wordpress'],
             'drupal' => ['display_name' => 'Drupal Satellite', 'name' => 'bmlt-drupal', 'source' => 'drupal'],
