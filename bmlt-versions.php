@@ -6,7 +6,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: bmlt-enabled
 Author URI: https://bmlt.app
-Version: 1.8.1
+Version: 1.8.2
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -78,7 +78,7 @@ class BmltVersions
                             <td><input type="text" id="bmltVersionsGithubApiKey" name="bmltVersionsGithubApiKey" value="<?php echo get_option('bmltVersionsGithubApiKey'); ?>" /></td>
                         </tr>
                         <tr valign="top">
-                            <th scope="row"><label for="rootServerDoc">Root Server Documentation</label></th>
+                            <th scope="row"><label for="rootServerDoc">Server Documentation</label></th>
                             <td><input type="text" id="rootServerDoc" name="rootServerDoc" value="<?php echo get_option('rootServerDoc'); ?>" /></td>
                         </tr>
                         <tr valign="top">
@@ -122,11 +122,11 @@ class BmltVersions
 
         $products = [
             'root_server' => [
-                'github_name' => 'bmlt-root-server',
-                'display_name' => 'Root Server',
+                'github_name' => 'bmlt-server',
+                'display_name' => 'BMLT Server',
                 'docs_option_name' => 'rootServerDoc',
-                'download_url' => 'https://github.com/bmlt-enabled/bmlt-root-server/releases/',
-                'github_url' => 'https://github.com/bmlt-enabled/bmlt-root-server'
+                'download_url' => 'https://github.com/bmlt-enabled/bmlt-server/releases/',
+                'github_url' => 'https://github.com/bmlt-enabled/bmlt-server'
             ],
             'crouton' => [
                 'github_name' => 'crouton',
@@ -237,7 +237,7 @@ class BmltVersions
         }
 
         $repositories = [
-            'root_server' => ['display_name' => 'BMLT Root Server', 'name' => 'bmlt-root-server', 'source' => 'github'],
+            'root_server' => ['display_name' => 'BMLT Server', 'name' => 'bmlt-root-server', 'source' => 'github'],
             'yap' => ['display_name' => 'Yap', 'name' => 'yap', 'source' => 'github'],
             'wordpress' => ['display_name' => 'Wordpress Satellite', 'name' => 'bmlt-wordpress-satellite-plugin', 'source' => 'wordpress'],
             'drupal' => ['display_name' => 'Drupal Satellite', 'name' => 'bmlt-drupal', 'source' => 'drupal'],
