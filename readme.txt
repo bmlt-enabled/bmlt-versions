@@ -3,7 +3,7 @@
 Contributors: pjaudiomv, GarrettWeinberg, tempsaint, dgershman
 Tags: bmlt, meeting list
 Tested up to: 6.4.2
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ This section describes how to install the plugin and get it working.
 
 
 == Changelog ==
+
+= 1.8.2 =
+* Rename server.
 
 = 1.8.1 =
 * Better handling for bad API keys.
