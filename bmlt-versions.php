@@ -218,12 +218,9 @@ class BmltVersions
             'bread' => '1',
             'workflow' => '1',
             'yap' => '1',
-            'tabbed_map' => '1',
-            'meeting_map' => '1',
             'list_locations' => '1',
             'upcoming_meetings' => '1',
             'contacts' => '1',
-            'temporary_closures' => '1',
             'sort_by' => 'date'
         ];
 
@@ -244,12 +241,9 @@ class BmltVersions
             'crumb_joomla' => ['display_name' => 'Crumb Joomla', 'name' => 'crumb-joomla', 'source' => 'joomla'],
             'bread' => ['display_name' => 'Bread', 'name' => 'bread', 'source' => 'wordpress'],
             'workflow' => ['display_name' => 'Workflow', 'name' => 'bmlt-workflow', 'source' => 'wordpress'],
-            'tabbed_map' => ['display_name' => 'Tabbed Map', 'name' => 'bmlt-tabbed-map', 'gh_name' => 'bmlt_tabbed_map', 'source' => 'wordpress'],
-            'meeting_map' => ['display_name' => 'Meeting Map', 'name' => 'bmlt-meeting-map', 'source' => 'wordpress'],
             'list_locations' => ['display_name' => 'List Locations', 'name' => 'list-locations-bmlt', 'source' => 'wordpress'],
             'upcoming_meetings' => ['display_name' => 'Upcoming Meetings', 'name' => 'upcoming-meetings-bmlt', 'source' => 'wordpress'],
             'contacts' => ['display_name' => 'Contacts', 'name' => 'contacts-bmlt', 'source' => 'wordpress'],
-            'temporary_closures' => ['display_name' => 'Temporary Closures', 'name' => 'temporary-closures-bmlt', 'source' => 'wordpress']
         ];
 
         $releases = [];

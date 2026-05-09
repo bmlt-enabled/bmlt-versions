@@ -5,7 +5,7 @@ Displays download links and versions for latest BMLT Releases simply add [bmlt_v
 SHORTCODE
 [bmlt_versions]
 
-**Attributes:** server, wordpress, drupal, basic, crouton, crumb, crumb_drupal, crumb_joomla, bread, yap, tabbed_map, meeting_map, list_locations, upcoming_meetings, contacts, temporary_closures, workflow
+**Attributes:** server, wordpress, drupal, basic, crouton, crumb, crumb_drupal, crumb_joomla, bread, yap, list_locations, upcoming_meetings, contacts, workflow
 Adds ability to hide certain releases, default for most is to show all or 1. sort_by allows you to sort by name or date, defaults to date. [bmlt_versions sort_by="name"] or [bmlt_versions sort_by="date"] defaults to date if not specified.
 
 Ex. [bmlt_versions drupal="0"] would not display drupal link.
@@ -34,6 +34,7 @@ This section describes how to install the plugin and get it working.
 
 = 1.9.0 =
 * Added Crumb plugin support (WordPress, Drupal, and Joomla variants).
+* Removed Tabbed Map, Meeting Map, and Temporary Closures (no longer maintained).
 * Fixed duplicated entry in [bmlt_versions_simple] output.
 * Cleaned up settings registration, sort comparators, and API error handling.
 
