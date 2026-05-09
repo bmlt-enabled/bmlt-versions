@@ -6,7 +6,7 @@ Plugin URI: https://github.com/bmlt-enabled/bmlt-versions/
 Description: A simple content generator to display the versions and links of the various BMLT components. Add [bmlt_versions] to a page or a post to generate the list.
 Author: bmlt-enabled
 Author URI: https://bmlt.app
-Version: 1.8.2
+Version: 1.9.0
 Install: Drop this directory into the "wp-content/plugins/" directory and activate it.
 */
 /* Disallow direct access to the plugin file */
@@ -44,19 +44,25 @@ class BmltVersions
 
     public function bmltVersionsRegisterSettings()
     {
-        $options = [
-            'serverDoc' => 'Server Documentation Link',
-            'croutonDoc' => 'Crouton Documentation Link',
-            'yapDoc' => 'Yap Documentation Link',
-            'breadDoc' => 'Bread Documentation Link',
-            'bmltVersionsGithubApiKey' => 'Github API Key.',
-            'workflowDoc' => 'BMLT Workflow Documentation Link'
-        ];
+        add_option('bmltVersionsGithubApiKey', '');
+        register_setting('bmltVersionsOptionGroup', 'bmltVersionsGithubApiKey');
 
-        foreach ($options as $key => $value) {
-            add_option($key, $value);
-            register_setting('bmltVersionsOptionGroup', $key, 'bmltVersionsCallback');
+        foreach ($this->docOptions() as $key => $field) {
+            add_option($key, $field['default']);
+            register_setting('bmltVersionsOptionGroup', $key);
         }
+    }
+
+    private function docOptions()
+    {
+        return [
+            'serverDoc'   => ['label' => 'Server Documentation', 'default' => ''],
+            'croutonDoc'  => ['label' => 'Crouton Documentation', 'default' => ''],
+            'crumbDoc'    => ['label' => 'Crumb Documentation', 'default' => 'https://crumb.bmlt.app/'],
+            'yapDoc'      => ['label' => 'Yap Documentation', 'default' => ''],
+            'breadDoc'    => ['label' => 'Bread Documentation', 'default' => ''],
+            'workflowDoc' => ['label' => 'BMLT Workflow Documentation', 'default' => ''],
+        ];
     }
 
     public function bmltVersionsOptionsPage()
@@ -65,41 +71,26 @@ class BmltVersions
     }
     public function bmltVersionsAdminOptionsPage()
     {
+        $rows = ['bmltVersionsGithubApiKey' => 'GitHub API Token'];
+        foreach ($this->docOptions() as $key => $field) {
+            $rows[$key] = $field['label'];
+        }
         ?>
             <div>
                 <h2>BMLT Versions</h2>
                 <p>You must activate a GitHub personal access token to use this plugin. Instructions can be found here <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token</a>.</p>
                 <p>Links for documentation are optional and only configured for [bmlt_versions_simple]. You can find all the documentations pages here <a href="https://bmlt.app">https://bmlt.app</a>. If inputs are left blank, "View Documentation" link will not display on the front end</p>
                 <form method="post" action="options.php">
-                <?php settings_fields('bmltVersionsOptionGroup'); ?>
+                    <?php settings_fields('bmltVersionsOptionGroup'); ?>
                     <table>
-                        <tr valign="top">
-                            <th scope="row"><label for="bmltVersionsGithubApiKey">GitHub API Token</label></th>
-                            <td><input type="text" id="bmltVersionsGithubApiKey" name="bmltVersionsGithubApiKey" value="<?php echo get_option('bmltVersionsGithubApiKey'); ?>" /></td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><label for="serverDoc">Server Documentation</label></th>
-                            <td><input type="text" id="serverDoc" name="serverDoc" value="<?php echo get_option('serverDoc'); ?>" /></td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><label for="croutonDoc">Crouton Documentation</label></th>
-                            <td><input type="text" id="croutonDoc" name="croutonDoc" value="<?php echo get_option('croutonDoc'); ?>" /></td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><label for="yapDoc">Yap Documentation</label></th>
-                            <td><input type="text" id="yapDoc" name="yapDoc" value="<?php echo get_option('yapDoc'); ?>" /></td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><label for="breadDoc">Bread Documentation</label></th>
-                            <td><input type="text" id="breadDoc" name="breadDoc" value="<?php echo get_option('breadDoc'); ?>" /></td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><label for="workflowDoc">BMLT Workflow Documentation</label></th>
-                            <td><input type="text" id="workflowDoc" name="workflowDoc" value="<?php echo get_option('workflowDoc'); ?>" /></td>
-                        </tr>
-
+                        <?php foreach ($rows as $key => $label) : ?>
+                            <tr valign="top">
+                                <th scope="row"><label for="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></label></th>
+                                <td><input type="text" id="<?php echo esc_attr($key); ?>" name="<?php echo esc_attr($key); ?>" value="<?php echo esc_attr(get_option($key)); ?>" /></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
-                <?php  submit_button(); ?>
+                    <?php submit_button(); ?>
                 </form>
             </div>
             <?php
@@ -107,11 +98,11 @@ class BmltVersions
 
     public function bmltVersionsSimpleFunc($atts = [])
     {
-        $content = '';
         $args = shortcode_atts(
             [
                 'server' => '1',
                 'crouton'     => '1',
+                'crumb'       => '1',
                 'bread'       => '1',
                 'yap'         => '1',
                 'workflow'    => '1',
@@ -134,6 +125,13 @@ class BmltVersions
                 'docs_option_name' => 'croutonDoc',
                 'download_url' => 'https://wordpress.org/plugins/crouton/',
                 'github_url' => 'https://github.com/bmlt-enabled/crouton'
+            ],
+            'crumb' => [
+                'github_name' => 'crumb',
+                'display_name' => 'Crumb',
+                'docs_option_name' => 'crumbDoc',
+                'download_url' => 'https://wordpress.org/plugins/crumb/',
+                'github_url' => 'https://github.com/bmlt-enabled/crumb'
             ],
             'bread' => [
                 'github_name' => 'bread',
@@ -163,34 +161,29 @@ class BmltVersions
         foreach ($products as $key => $product) {
             if ($args[$key]) {
                 $response = $this->githubLatestReleaseInfo($product['github_name']);
-                $version = $this->githubLatestReleaseVersion($response);
-                $date = $this->githubLatestReleaseDate($response);
+                $version = $response['tag_name'] ?? '';
+                $date = $response['published_at'] ?? '';
                 $docs = get_option($product['docs_option_name']);
 
-                $content = $this->generateSimpleHtmlContent($product, $version, $date, $docs);
                 $releases[] = [
-                    'content' => $content,
+                    'content' => $this->generateSimpleHtmlContent($product, $version, $date, $docs),
                     'name'    => $product['display_name'],
                     'date'    => strtotime($date),
-                    'version' => $version
                 ];
             }
         }
 
-        if ($args['sort_by'] == "name") {
-            usort($releases, function ($a, $b) {
-                return strnatcasecmp($a['name'], $b['name']);
-            });
-        } else {
-            usort($releases, function ($a, $b) {
-                return strnatcasecmp($b['date'], $a['date']);
-            });
-        }
-        foreach ($releases as $release) {
-            $content .= $release['content'];
-        }
+        usort($releases, function ($a, $b) use ($args) {
+            return $args['sort_by'] === 'name'
+                ? strnatcasecmp($a['name'], $b['name'])
+                : $b['date'] <=> $a['date'];
+        });
 
-        return $content;
+        $output = '';
+        foreach ($releases as $release) {
+            $output .= $release['content'];
+        }
+        return $output;
     }
 
     private function generateSimpleHtmlContent($product, $version, $date, $docs)
@@ -219,6 +212,9 @@ class BmltVersions
             'drupal' => '0',
             'basic' => '0',
             'crouton' => '1',
+            'crumb' => '1',
+            'crumb_drupal' => '0',
+            'crumb_joomla' => '0',
             'bread' => '1',
             'workflow' => '1',
             'yap' => '1',
@@ -243,6 +239,9 @@ class BmltVersions
             'drupal' => ['display_name' => 'Drupal Satellite', 'name' => 'bmlt-drupal', 'source' => 'drupal'],
             'basic' => ['display_name' => 'Basic Satellite', 'name' => 'bmlt-basic', 'source' => 'github'],
             'crouton' => ['display_name' => 'Crouton', 'name' => 'crouton', 'source' => 'wordpress'],
+            'crumb' => ['display_name' => 'Crumb', 'name' => 'crumb', 'source' => 'wordpress'],
+            'crumb_drupal' => ['display_name' => 'Crumb Drupal', 'name' => 'crumb-drupal', 'source' => 'drupal'],
+            'crumb_joomla' => ['display_name' => 'Crumb Joomla', 'name' => 'crumb-joomla', 'source' => 'joomla'],
             'bread' => ['display_name' => 'Bread', 'name' => 'bread', 'source' => 'wordpress'],
             'workflow' => ['display_name' => 'Workflow', 'name' => 'bmlt-workflow', 'source' => 'wordpress'],
             'tabbed_map' => ['display_name' => 'Tabbed Map', 'name' => 'bmlt-tabbed-map', 'gh_name' => 'bmlt_tabbed_map', 'source' => 'wordpress'],
@@ -258,14 +257,15 @@ class BmltVersions
         foreach ($repositories as $key => $repo) {
             if ($args[$key]) {
                 $response = $this->githubLatestReleaseInfo($repo['gh_name'] ?? $repo['name']);
-                $version = $this->githubLatestReleaseVersion($response);
-                $date = $this->githubLatestReleaseDate($response);
+                $version = $response['tag_name'] ?? '';
+                $date = $response['published_at'] ?? '';
                 $description = $this->githubReleaseDescription($repo['gh_name'] ?? $repo['name']);
                 $formattedDate = date("m-d-Y", strtotime($date));
 
                 $downloadURL = '';
                 switch ($repo['source']) {
                     case 'drupal':
+                    case 'joomla':
                     case 'github':
                         $downloadURL = "https://github.com/bmlt-enabled/{$repo['name']}/releases/{$version}";
                         break;
@@ -282,55 +282,41 @@ class BmltVersions
                 $content .= "Latest Release : <strong><a href=\"{$downloadURL}\" id=\"bmlt_versions_release\">{$version} ({$formattedDate})</a></strong>";
                 $content .= "</li></ul></div>";
 
-                $releases[] = ['content' => $content, 'name' => $repo['name'], 'date' => strtotime($date), 'version' => $version];
+                $releases[] = ['content' => $content, 'name' => $repo['name'], 'date' => strtotime($date)];
             }
         }
 
-        $sortKey = ($args['sort_by'] == 'name') ? 'name' : 'date';
-        usort($releases, function ($a, $b) use ($sortKey) {
-            return ($sortKey == 'date') ? strnatcasecmp($b[$sortKey], $a[$sortKey]) : strnatcasecmp($a[$sortKey], $b[$sortKey]);
+        usort($releases, function ($a, $b) use ($args) {
+            return $args['sort_by'] === 'name'
+                ? strnatcasecmp($a['name'], $b['name'])
+                : $b['date'] <=> $a['date'];
         });
-        $rel = '';
+
+        $output = '';
         foreach ($releases as $release) {
-            $rel .= $release['content'];
+            $output .= $release['content'];
         }
-        return $rel;
+        return $output;
     }
 
     public function githubLatestReleaseInfo($repo)
     {
         $results = $this->get("https://api.github.com/repos/bmlt-enabled/$repo/releases/latest");
-        $httpcode = wp_remote_retrieve_response_code($results);
-        $response_message = wp_remote_retrieve_response_message($results);
-        if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && !empty($response_message)) {
-            return 'Problem Connecting to Server!';
+        if (!in_array(wp_remote_retrieve_response_code($results), [200, 302, 304], true)) {
+            return [];
         }
-        $body = wp_remote_retrieve_body($results);
-        return json_decode($body, true);
-    }
-
-    public function githubLatestReleaseVersion($result)
-    {
-        return $result['tag_name'] ?? '';
-    }
-
-    public function githubLatestReleaseDate($result)
-    {
-        return $result['published_at'] ?? '';
+        return json_decode(wp_remote_retrieve_body($results), true) ?? [];
     }
 
     public function githubReleaseDescription($repo)
     {
         $results = $this->get("https://api.github.com/repos/bmlt-enabled/$repo");
-        $httpcode = wp_remote_retrieve_response_code($results);
-        $response_message = wp_remote_retrieve_response_message($results);
-        if ($httpcode != 200 && $httpcode != 302 && $httpcode != 304 && !empty($response_message)) {
-            return 'Problem Connecting to Server!';
+        if (!in_array(wp_remote_retrieve_response_code($results), [200, 302, 304], true)) {
+            return '';
         }
-        $body = wp_remote_retrieve_body($results);
-        $result = json_decode($body, true);
+        $description = json_decode(wp_remote_retrieve_body($results), true)['description'] ?? '';
         $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-        return preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $result['description']);
+        return preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $description);
     }
 
     public function get($url, $cookies = null)
